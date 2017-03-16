@@ -20,7 +20,7 @@ public class VaadinUI extends UI {
 
     private void buildUI(){
         VerticalLayout mainLayout = new VerticalLayout();
-        Label label = new Label("Добро пожаловать на сайт приемной комиссиb!");
+        Label label = new Label("Добро пожаловать на сайт приемной комиссии!");
         mainLayout.addComponent(label);
         mainLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
         Button continueButton = new Button("Продолжить");
