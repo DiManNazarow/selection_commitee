@@ -12,10 +12,10 @@ public interface EnrolleeService {
 
     String addEnrollee(String enrolleeJson);
 
-    String getAllEnrollee();
+    List<Enrollee> getAllEnrollee();
 
     String getEnrolleeById(String idJson);
 
-    String findEnrolleeByInitials(String initials);
+    List<Enrollee> findEnrolleeByInitials(String initials);
 
 }

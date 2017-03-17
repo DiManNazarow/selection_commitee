@@ -24,12 +24,14 @@ public class EnrolleController {
 
     @GetMapping(path = "/getAll")
     public @ResponseBody String getAllEnrollee(){
-        return enrolleeService.getAllEnrollee();
+        return "";
+        //return enrolleeService.getAllEnrollee();
     }
 
     @RequestMapping(path = "/findByInitials")
     public @ResponseBody String findByInitials(@RequestBody String initials){
-        return enrolleeService.findEnrolleeByInitials(initials);
+        return "";
+        //return enrolleeService.findEnrolleeByInitials(initials);
     }
 
 }

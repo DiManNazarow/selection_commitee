@@ -55,7 +55,7 @@ public class Enrollee implements JsonUtils.JSONPresentable{
     @Column(name = "school_doc_number", unique = true, nullable = false)
     private String schoolDocNumber;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<StudyInfo> studyInfo;
 
     public Long getId() {

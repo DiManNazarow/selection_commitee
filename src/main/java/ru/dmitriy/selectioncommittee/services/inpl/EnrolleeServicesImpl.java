@@ -8,6 +8,7 @@ import ru.dmitriy.selectioncommittee.services.EnrolleeService;
 import ru.dmitriy.selectioncommittee.utils.JsonUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -31,8 +32,8 @@ public class EnrolleeServicesImpl implements EnrolleeService {
     }
 
     @Override
-    public String getAllEnrollee() {
-        return JsonUtils.asJSONArray((ArrayList<Enrollee>)enrolleRepository.findAll()).toString();
+    public List<Enrollee> getAllEnrollee() {
+        return (ArrayList<Enrollee>)enrolleRepository.findAll();
     }
 
     @Override
@@ -42,12 +43,12 @@ public class EnrolleeServicesImpl implements EnrolleeService {
     }
 
     @Override
-    public String findEnrolleeByInitials(String initialsJson) {
-        String initials = parser.parse(initialsJson).getAsJsonObject().get(Enrollee.JsonFieldName.INITIALS).getAsString();
+    public List<Enrollee> findEnrolleeByInitials(String initials) {
+        //String initials = parser.parse(initialsJson).getAsJsonObject().get(Enrollee.JsonFieldName.INITIALS).getAsString();
         ArrayList<Enrollee> enrollees = (ArrayList<Enrollee>)enrolleRepository.findAll();
-        return JsonUtils.asJSONArray(enrollees.stream().filter(
+        return enrollees.stream().filter(
                 e -> e.getName().toLowerCase().contains(initials.toLowerCase()) ||
         e.getSurname().toLowerCase().contains(initials.toLowerCase()) ||
-        e.getPatronymic().toLowerCase().contains(initials.toLowerCase())).collect(Collectors.toList())).toString();
+        e.getPatronymic().toLowerCase().contains(initials.toLowerCase())).collect(Collectors.toList());
     }
 }
