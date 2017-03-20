@@ -27,10 +27,10 @@ public class InstitutionController {
         return instituteService.getAllInstitute();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String addInstitute(@RequestBody String requestBody){
-        return instituteService.addInstitute(requestBody);
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public @ResponseBody String addInstitute(@RequestBody String requestBody){
+//        return instituteService.addInstitute(requestBody);
+//    }
 
     @RequestMapping(method = RequestMethod.POST, path = "/getById")
     public @ResponseBody String getInstituteById(@RequestBody String requestBody){

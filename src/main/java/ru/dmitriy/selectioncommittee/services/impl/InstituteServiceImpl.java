@@ -1,4 +1,4 @@
-package ru.dmitriy.selectioncommittee.services.inpl;
+package ru.dmitriy.selectioncommittee.services.impl;
 
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class InstituteServiceImpl implements InstituteService {
     }
 
     @Override
-    public String addInstitute(String instituteJson) {
-        return institutionRepository.save(Institution.PARCEL.fromJSONObject(parser.parse(instituteJson).getAsJsonObject())).getId().toString();
+    public String addInstitute(Institution institute) {
+        return institutionRepository.save(institute).getId().toString();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.dmitriy.selectioncommittee.services.inpl;
+package ru.dmitriy.selectioncommittee.services.impl;
 
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
