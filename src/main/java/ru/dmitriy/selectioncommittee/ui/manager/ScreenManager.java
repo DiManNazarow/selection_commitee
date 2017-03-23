@@ -37,6 +37,7 @@ public class ScreenManager {
     }
 
     private void addScreens(){
+        navigator.addView("/", new StartScreen());
         navigator.addView(StartScreen.START_SCREEN, new StartScreen());
         navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, new UniversityListScreen());
         navigator.addView(PulpitListScreen.PULPIT_SCREEN_LIST, new PulpitListScreen());
