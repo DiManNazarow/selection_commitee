@@ -19,9 +19,7 @@ public class ScreenManager {
     }
 
     public static ScreenManager init(Navigator navigator){
-        if (instance == null){
-            instance = new ScreenManager(navigator);
-        }
+        instance = new ScreenManager(navigator);
         return instance;
     }
 
@@ -37,6 +35,7 @@ public class ScreenManager {
     }
 
     private void addScreens(){
+        navigator.addView("", new StartScreen());
         navigator.addView("/", new StartScreen());
         navigator.addView(StartScreen.START_SCREEN, new StartScreen());
         navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, new UniversityListScreen());

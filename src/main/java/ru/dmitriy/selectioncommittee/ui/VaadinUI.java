@@ -45,8 +45,17 @@ public class VaadinUI extends UI {
         navigator = new Navigator(this, this);
         initRepository();
         ScreenManager.init(navigator);
-        ScreenManager.getInstance().navigateTo(StartScreen.START_SCREEN);;
+//        ScreenManager.getInstance().navigateTo(StartScreen.START_SCREEN);
     }
+
+    @Override
+    protected void refresh(VaadinRequest request){
+        navigator = new Navigator(this, this);
+        initRepository();
+        ScreenManager.init(navigator);
+    }
+
+
 
     private void initRepository(){
         ServiceProvider.instance().setEnrolleeService(enrolleeService);
