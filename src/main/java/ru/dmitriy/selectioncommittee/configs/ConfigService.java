@@ -1,12 +1,8 @@
 package ru.dmitriy.selectioncommittee.configs;
 
 import org.springframework.context.annotation.Bean;
-import ru.dmitriy.selectioncommittee.services.EnrolleeService;
-import ru.dmitriy.selectioncommittee.services.InstituteService;
-import ru.dmitriy.selectioncommittee.services.StudyInfoService;
-import ru.dmitriy.selectioncommittee.services.inpl.EnrolleeServicesImpl;
-import ru.dmitriy.selectioncommittee.services.inpl.InstituteServiceImpl;
-import ru.dmitriy.selectioncommittee.services.inpl.StudyInfoServiceImpl;
+import ru.dmitriy.selectioncommittee.services.*;
+import ru.dmitriy.selectioncommittee.services.impl.*;
 
 /**
  * Created by Dmitriy Nazarow on 12.03.17.
@@ -22,8 +18,18 @@ public class ConfigService {
     public InstituteService instituteService(){ return new InstituteServiceImpl(); }
 
     @Bean
+    public PulpitService pulpitService(){
+        return new PulpitServiceImpl();
+    }
+
+    @Bean
     public StudyInfoService studyInfoService(){
         return new StudyInfoServiceImpl();
+    }
+
+    @Bean
+    public SpecialityService specialityService(){
+        return new SpecialityServiceImpl();
     }
 
 }

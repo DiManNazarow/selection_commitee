@@ -22,15 +22,15 @@ public class InstitutionController {
     @Autowired
     private InstituteService instituteService;
 
-    @GetMapping(path = "/getAll")
-    public @ResponseBody String getAllInstitute(){
-        return instituteService.getAllInstitute();
-    }
+//    @GetMapping(path = "/getAll")
+//    public @ResponseBody String getAllInstitute(){
+//        return instituteService.getAllInstitute();
+//    }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody String addInstitute(@RequestBody String requestBody){
-        return instituteService.addInstitute(requestBody);
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public @ResponseBody String addInstitute(@RequestBody String requestBody){
+//        return instituteService.addInstitute(requestBody);
+//    }
 
     @RequestMapping(method = RequestMethod.POST, path = "/getById")
     public @ResponseBody String getInstituteById(@RequestBody String requestBody){

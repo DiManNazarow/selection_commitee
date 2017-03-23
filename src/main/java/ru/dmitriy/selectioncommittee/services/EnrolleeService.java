@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface EnrolleeService {
 
-    String addEnrollee(String enrolleeJson);
+    String saveEnrollee(Enrollee enrollee);
 
     List<Enrollee> getAllEnrollee();
 
-    String getEnrolleeById(String idJson);
+    Enrollee getEnrolleeById(Long id);
 
     List<Enrollee> findEnrolleeByInitials(String initials);
 

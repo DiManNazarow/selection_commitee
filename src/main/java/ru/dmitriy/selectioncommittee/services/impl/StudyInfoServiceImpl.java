@@ -1,4 +1,4 @@
-package ru.dmitriy.selectioncommittee.services.inpl;
+package ru.dmitriy.selectioncommittee.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.dmitriy.selectioncommittee.models.Enrollee;

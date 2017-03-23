@@ -155,7 +155,7 @@ public class Institution implements JsonUtils.JSONPresentable{
         }
     }
 
-    static class TypeNotFoundException extends Exception{
+    public static class TypeNotFoundException extends Exception{
         TypeNotFoundException(){
             super("Institution type not found");
         }

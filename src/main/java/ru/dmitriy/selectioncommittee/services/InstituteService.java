@@ -1,13 +1,17 @@
 package ru.dmitriy.selectioncommittee.services;
 
+import ru.dmitriy.selectioncommittee.models.Institution;
+
+import java.util.List;
+
 /**
  * Created by Dmitriy Nazarow on 12.03.17.
  */
 public interface InstituteService {
 
-    String getAllInstitute();
+    List<Institution> getAllInstitute();
 
-    String addInstitute(String instituteJson);
+    String addInstitute(Institution institute);
 
     String getInstituteById(String jsonId);
 

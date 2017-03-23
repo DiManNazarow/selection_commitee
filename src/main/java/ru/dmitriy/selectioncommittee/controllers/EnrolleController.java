@@ -3,7 +3,6 @@ package ru.dmitriy.selectioncommittee.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.dmitriy.selectioncommittee.repositories.EnrolleRepository;
 import ru.dmitriy.selectioncommittee.services.EnrolleeService;
 
 /**
@@ -17,10 +16,10 @@ public class EnrolleController {
     @Autowired
     private EnrolleeService enrolleeService;
 
-    @RequestMapping(method = RequestMethod.POST, path = "/add")
-    public @ResponseBody String addEnrollee(@RequestBody String enrolleeJson){
-        return enrolleeService.addEnrollee(enrolleeJson);
-    }
+//    @RequestMapping(method = RequestMethod.POST, path = "/add")
+//    public @ResponseBody String addEnrollee(@RequestBody String enrolleeJson){
+//        return enrolleeService.saveEnrollee(enrolleeJson);
+//    }
 
     @GetMapping(path = "/getAll")
     public @ResponseBody String getAllEnrollee(){

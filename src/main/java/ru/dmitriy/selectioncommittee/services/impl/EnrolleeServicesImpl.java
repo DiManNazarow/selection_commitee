@@ -1,4 +1,4 @@
-package ru.dmitriy.selectioncommittee.services.inpl;
+package ru.dmitriy.selectioncommittee.services.impl;
 
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,7 @@ public class EnrolleeServicesImpl implements EnrolleeService {
     }
 
     @Override
-    public String addEnrollee(String enrolleeJson) {
-        Enrollee enrollee = Enrollee.PARCEL.fromJSONObject(parser.parse(enrolleeJson).getAsJsonObject());
+    public String saveEnrollee(Enrollee enrollee) {
         return enrolleRepository.save(enrollee).getId().toString();
     }
 
@@ -37,9 +36,8 @@ public class EnrolleeServicesImpl implements EnrolleeService {
     }
 
     @Override
-    public String getEnrolleeById(String idJson) {
-        Long id = parser.parse(idJson).getAsJsonObject().get(Enrollee.JsonFieldName.ID).getAsLong();
-        return enrolleRepository.findOne(id).asJSON().toString();
+    public Enrollee getEnrolleeById(Long id) {
+        return enrolleRepository.findOne(id);
     }
 
     @Override
