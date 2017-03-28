@@ -1,16 +1,21 @@
-package ru.dmitriy.selectioncommittee.ui.screens;
+package ru.dmitriy.selectioncommittee.ui.screens.university;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import ru.dmitriy.selectioncommittee.models.Institution;
+import ru.dmitriy.selectioncommittee.models.Pulpit;
 import ru.dmitriy.selectioncommittee.ui.Screen;
+import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
+import ru.dmitriy.selectioncommittee.ui.presenter.UniversityPresenter;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
+
+import java.util.List;
 
 /**
  * Created by diman on 20.03.17.
  */
-public class AddNewUniversityScreen extends Screen<VerticalLayout> {
+public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityPresenter> implements UniversityPresenter.PulpitsAddListener {
 
     public static final String ADD_NEW_UNIVERSITY_SCREEN = "add_university_screen";
 
@@ -19,6 +24,8 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout> {
     private TextField institutionStreet;
     private TextField institutionAddress;
     private ListSelect<String> institutionTypeSelect;
+    private Grid<Pulpit> universityPulpitList;
+    private Button addPulpitsButton;
 
     private Button saveButton;
 
@@ -36,15 +43,21 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout> {
         institutionAddress = new TextField("Дом");
         institutionTypeSelect = new ListSelect<>("Тип университета");
         institutionTypeSelect.setItems("Уиверситет", "Техикум");
+        universityPulpitList = new Grid<>();
+        universityPulpitList.addColumn(Pulpit::getName).setCaption("Кафедра");
+        addPulpitsButton = new Button("Добавить кафедры");
+        addPulpitsButton.addClickListener(clickEvent -> {
+            ScreenManager.getInstance().navigateTo(AddPulpitToUniversityScreen.ADD_PULPIT_TO_UNIVERSITY_SCREEN);
+        });
         saveButton = new Button("Сохранить");
         saveButton.addClickListener( clickEvent -> {
             saveInstitute();
         });
-        mainLayout.addComponents(institutionName, institutionCity, institutionAddress, institutionStreet, institutionTypeSelect, saveButton);
+        mainLayout.addComponents(institutionName, institutionCity, institutionAddress, institutionStreet, institutionTypeSelect, universityPulpitList, addPulpitsButton, saveButton);
         addComponent(mainLayout);
     }
 
-    public void saveInstitute(){
+    private void saveInstitute(){
         if (institution.getId() != null){
             institution = new Institution();
         }
@@ -60,6 +73,7 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout> {
         String id = ServiceProvider.instance().getInstituteService().addInstitute(institution);
         if (!TextUtils.isEmpty(id)){
             institution.setId(Long.parseLong(id));
+            updatePulpits(institution.getPulpits());
             Notification.show("Сохранено");
         } else {
             Notification.show("Ошибка");
@@ -67,7 +81,29 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout> {
     }
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+    protected void onPresenterSet(){
+        super.onPresenterSet();
+        getPresenter().setPulpitsAddListener(this);
+    }
 
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (institution.getPulpits() != null) {
+            universityPulpitList.setItems(institution.getPulpits());
+        }
+    }
+
+    @Override
+    public void pulpitsAdded(List<Pulpit> pulpitList) {
+        if (institution != null){
+            institution.setPulpits(pulpitList);
+            institution.getPulpits().forEach(pulpit -> { pulpit.setInstitution(institution); });
+            universityPulpitList.setItems(pulpitList);        }
+    }
+
+    private void updatePulpits(List<Pulpit> pulpits){
+        if (pulpits != null && pulpits.size() > 0) {
+            ServiceProvider.instance().getPulpitService().savePulpits(pulpits);
+        }
     }
 }

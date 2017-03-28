@@ -25,4 +25,9 @@ public class PulpitServiceImpl implements PulpitService {
     public String savePulpit(Pulpit pulpit) {
         return pulpitRepository.save(pulpit).getId().toString();
     }
+
+    @Override
+    public void savePulpits(List<Pulpit> pulpits) {
+        pulpitRepository.save(pulpits);
+    }
 }

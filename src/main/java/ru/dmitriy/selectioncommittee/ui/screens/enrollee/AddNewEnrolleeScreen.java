@@ -1,4 +1,4 @@
-package ru.dmitriy.selectioncommittee.ui.screens;
+package ru.dmitriy.selectioncommittee.ui.screens.enrollee;
 
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -8,12 +8,13 @@ import com.vaadin.ui.VerticalLayout;
 import ru.dmitriy.selectioncommittee.models.Enrollee;
 import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
+import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleePresenter;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
  */
-public class AddNewEnrolleeScreen extends Screen<VerticalLayout> {
+public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresenter> {
 
     public static final String ADD_NEW_ENROLLEE_SCREEN = "add_new_enrollee_screen";
 

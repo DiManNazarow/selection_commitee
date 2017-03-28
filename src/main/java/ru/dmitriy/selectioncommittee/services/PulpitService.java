@@ -13,4 +13,6 @@ public interface PulpitService {
 
     String savePulpit(Pulpit pulpit);
 
+    void savePulpits(List<Pulpit> pulpits);
+
 }

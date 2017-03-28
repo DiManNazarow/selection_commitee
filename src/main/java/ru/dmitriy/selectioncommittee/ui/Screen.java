@@ -2,14 +2,14 @@ package ru.dmitriy.selectioncommittee.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
  * Created by diman on 20.03.17.
  */
-public abstract class Screen<Layout extends AbstractComponent> extends VerticalLayout implements View{
+public abstract class Screen<Layout extends AbstractComponent, P extends Presenter> extends VerticalLayout implements View{
+
+    protected P presenter;
 
     public Screen(Layout layout){
         mainLayout = layout;
@@ -22,5 +22,16 @@ public abstract class Screen<Layout extends AbstractComponent> extends VerticalL
 
     public Layout getMainLayout(){
         return mainLayout;
+    }
+
+    public void setPresenter(P presenter){
+        this.presenter = presenter;
+        onPresenterSet();
+    }
+
+    protected void onPresenterSet(){};
+
+    public P getPresenter(){
+        return presenter;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
  */
-public abstract class ListScreen<Content> extends Screen<VerticalLayout> {
+public abstract class ListScreen<Content, P extends Presenter> extends Screen<VerticalLayout, P> {
 
     protected Grid<Content> grid;
 
@@ -23,7 +23,7 @@ public abstract class ListScreen<Content> extends Screen<VerticalLayout> {
         grid = new Grid<Content>();
         setGridColumn();
         mainLayout.addComponent(grid);
-        addComponent(grid);
+        addComponent(mainLayout);
     }
 
     @Override

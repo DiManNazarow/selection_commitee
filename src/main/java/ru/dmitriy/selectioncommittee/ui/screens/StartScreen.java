@@ -4,11 +4,20 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
+import ru.dmitriy.selectioncommittee.ui.presenter.StartPresenter;
+import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddNewPulpitScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.pulpits.PulpitListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.speciality.AddNewSpecialityScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.speciality.SpecialityListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.university.AddNewUniversityScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.university.UniversityListScreen;
 
 /**
  * Created by Dmitriy Nazarow on 23.03.17.
  */
-public class StartScreen extends Screen<VerticalLayout> {
+public class StartScreen extends Screen<VerticalLayout, StartPresenter> {
 
     public static final String START_SCREEN = "start_screen";
 
