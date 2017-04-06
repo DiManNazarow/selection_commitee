@@ -1,11 +1,13 @@
 package ru.dmitriy.selectioncommittee.ui.manager;
 
 import com.vaadin.navigator.Navigator;
-import ru.dmitriy.selectioncommittee.ui.presenter.UniversityPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.AddNewPulpitScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.AddNewUniversityScreenPresenter;
 import ru.dmitriy.selectioncommittee.ui.screens.*;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddNewPulpitScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddSpecialityToPulpitScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.PulpitListScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.speciality.AddNewSpecialityScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.speciality.SpecialityListScreen;
@@ -51,7 +53,7 @@ public class ScreenManager {
         UniversityListScreen universityListScreen = new UniversityListScreen();
         AddPulpitToUniversityScreen addPulpitToUniversityScreen = new AddPulpitToUniversityScreen();
         AddNewUniversityScreen addNewUniversityScreen = new AddNewUniversityScreen();
-        UniversityPresenter universityPresenter = new UniversityPresenter();
+        AddNewUniversityScreenPresenter universityPresenter = new AddNewUniversityScreenPresenter();
         universityPresenter.setAddNewUniversityScreen(addNewUniversityScreen);
         universityPresenter.setAddPulpitToUniversityScreen(addPulpitToUniversityScreen);
         universityPresenter.setUniversityListScreen(universityListScreen);
@@ -59,13 +61,22 @@ public class ScreenManager {
         addPulpitToUniversityScreen.setPresenter(universityPresenter);
         addNewUniversityScreen.setPresenter(universityPresenter);
 
-        navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, universityListScreen);
+        AddNewPulpitScreen addNewPulpitScreen = new AddNewPulpitScreen();
+        AddSpecialityToPulpitScreen addSpecialityToPulpitScreen = new AddSpecialityToPulpitScreen();
+        AddNewPulpitScreenPresenter addNewPulpitScreenPresenter = new AddNewPulpitScreenPresenter();
+        addNewPulpitScreenPresenter.setAddNewPulpitScreen(addNewPulpitScreen);
+        addNewPulpitScreenPresenter.setAddSpecialityToPulpitScreen(addSpecialityToPulpitScreen);
+        addNewPulpitScreen.setPresenter(addNewPulpitScreenPresenter);
+        addSpecialityToPulpitScreen.setPresenter(addNewPulpitScreenPresenter);
+
+        navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, universityListScreen);;
         navigator.addView(PulpitListScreen.PULPIT_SCREEN_LIST, new PulpitListScreen());
         navigator.addView(SpecialityListScreen.SPECIALITY_LIST_SCREEN, new SpecialityListScreen());
         navigator.addView(EnrolleeListScreen.ENROLLEE_LIST_SCREEN, new EnrolleeListScreen());
         navigator.addView(AddNewUniversityScreen.ADD_NEW_UNIVERSITY_SCREEN, addNewUniversityScreen);
         navigator.addView(AddPulpitToUniversityScreen.ADD_PULPIT_TO_UNIVERSITY_SCREEN, addPulpitToUniversityScreen);
-        navigator.addView(AddNewPulpitScreen.ADD_NEW_PULPIT_SCREEN, new AddNewPulpitScreen());
+        navigator.addView(AddNewPulpitScreen.ADD_NEW_PULPIT_SCREEN, addNewPulpitScreen);
+        navigator.addView(AddSpecialityToPulpitScreen.ADD_SPECIALITY_TO_PULPIT_SCREEN, addSpecialityToPulpitScreen);
         navigator.addView(AddNewSpecialityScreen.ADD_NEW_SPECIALITY_SCREEN, new AddNewSpecialityScreen());
         navigator.addView(AddNewEnrolleeScreen.ADD_NEW_ENROLLEE_SCREEN, new AddNewEnrolleeScreen());
     }

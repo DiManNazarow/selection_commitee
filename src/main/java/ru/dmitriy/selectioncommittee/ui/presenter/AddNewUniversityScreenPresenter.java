@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by diman on 28.03.17.
  */
-public class UniversityPresenter extends Presenter{
+public class AddNewUniversityScreenPresenter extends Presenter{
 
     private AddNewUniversityScreen addNewUniversityScreen;
 

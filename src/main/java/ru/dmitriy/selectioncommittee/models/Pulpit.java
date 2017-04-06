@@ -28,7 +28,7 @@ public class Pulpit implements JsonUtils.JSONPresentable{
     @Column(name = "pulpit_name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany
     private List<Speciality> specialities;
 
     @ManyToOne(fetch = FetchType.LAZY)

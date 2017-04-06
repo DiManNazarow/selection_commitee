@@ -13,4 +13,6 @@ public interface SpecialityService {
 
     List<Speciality> getAllSpecialities();
 
+    void saveSpecialities(List<Speciality> specialities);
+
 }

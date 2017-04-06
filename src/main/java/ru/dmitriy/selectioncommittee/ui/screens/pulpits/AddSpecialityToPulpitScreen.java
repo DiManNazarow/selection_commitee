@@ -1,26 +1,30 @@
-package ru.dmitriy.selectioncommittee.ui.screens.university;
+package ru.dmitriy.selectioncommittee.ui.screens.pulpits;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.VerticalLayout;
 import ru.dmitriy.selectioncommittee.models.Pulpit;
+import ru.dmitriy.selectioncommittee.models.Speciality;
 import ru.dmitriy.selectioncommittee.ui.ListScreen;
+import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.AddNewUniversityScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.AddNewPulpitScreenPresenter;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Created by diman on 28.03.17.
+ * Created by diman on 06.04.17.
  */
-public class AddPulpitToUniversityScreen extends ListScreen<Pulpit, AddNewUniversityScreenPresenter>{
+public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, AddNewPulpitScreenPresenter> {
 
-    public static final String ADD_PULPIT_TO_UNIVERSITY_SCREEN = "add_pulpit_to_university_screen";
+    public static final String ADD_SPECIALITY_TO_PULPIT_SCREEN = "add_speciality_to_pulpit_screen";
 
     private Button addButton;
 
-    private List<Pulpit> selectedPulpits;
+    private List<Speciality> selectedPulpits;
 
     @Override
     public void buildScreen() {
@@ -30,11 +34,11 @@ public class AddPulpitToUniversityScreen extends ListScreen<Pulpit, AddNewUniver
 
         addButton  = new Button("Добавить");
         addButton.addClickListener(clickEvent -> {
-            getPresenter().addPulpits(selectedPulpits);
+            getPresenter().addSpeciality(selectedPulpits);
         });
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addSelectionListener(selectionEvent -> {
-            Set<Pulpit> pulpits = selectionEvent.getAllSelectedItems();
+            Set<Speciality> pulpits = selectionEvent.getAllSelectedItems();
             selectedPulpits = pulpits.stream().collect(Collectors.toList());
         });
 
@@ -44,13 +48,13 @@ public class AddPulpitToUniversityScreen extends ListScreen<Pulpit, AddNewUniver
     }
 
     @Override
-    public List<Pulpit> getContent() {
-        return ServiceProvider.instance().getPulpitService().getAllPulpit();
+    public List<Speciality> getContent() {
+        return ServiceProvider.instance().getSpecialityService().getAllSpecialities();
     }
 
     @Override
     protected void setGridColumn(){
-        grid.addColumn(Pulpit::getName).setCaption("Кафедра");
+        grid.addColumn(Speciality::getName).setCaption("Специальность");
     }
 
 }
