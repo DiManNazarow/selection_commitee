@@ -21,4 +21,14 @@ public class StudyInfoServiceImpl implements StudyInfoService {
         return enrollee.getStudyInfo();
     }
 
+    @Override
+    public Long save(StudyInfo studyInfo) {
+        return studyInfoRepository.save(studyInfo).getId();
+    }
+
+    @Override
+    public void save(List<StudyInfo> studyInfoList) {
+        studyInfoRepository.save(studyInfoList);
+    }
+
 }

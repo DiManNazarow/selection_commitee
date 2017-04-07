@@ -28,10 +28,10 @@ public class Pulpit implements JsonUtils.JSONPresentable{
     @Column(name = "pulpit_name", nullable = false)
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Speciality> specialities;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Institution institution;
 
     public Long getId() {

@@ -8,13 +8,13 @@ import com.vaadin.ui.VerticalLayout;
 import ru.dmitriy.selectioncommittee.models.Speciality;
 import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.SpecialityPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.SpecialityScreensPresenter;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
  */
-public class AddNewSpecialityScreen extends Screen<VerticalLayout, SpecialityPresenter> {
+public class AddNewSpecialityScreen extends Screen<VerticalLayout, SpecialityScreensPresenter> {
 
     public static final String ADD_NEW_SPECIALITY_SCREEN = "add_new_speciality_screen";
 
@@ -52,7 +52,7 @@ public class AddNewSpecialityScreen extends Screen<VerticalLayout, SpecialityPre
         speciality.setSpecialNumber(specialityNumber.getValue());
         speciality.setName(specialityName.getValue());
         String id = ServiceProvider.instance().getSpecialityService().saveSpeciality(speciality);
-        if (TextUtils.isEmpty(id)){
+        if (!TextUtils.isEmpty(id)){
             speciality.setId(Long.parseLong(id));
             Notification.show("Сохранено");
         } else {

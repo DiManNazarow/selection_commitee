@@ -1,20 +1,23 @@
 package ru.dmitriy.selectioncommittee.ui.screens.enrollee;
 
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import ru.dmitriy.selectioncommittee.models.Enrollee;
+import ru.dmitriy.selectioncommittee.models.Institution;
+import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.ui.Screen;
+import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleePresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
  */
-public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresenter> {
+public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreensPresenter> implements EnrolleeScreensPresenter.OnStudyInfoBuildListener{
 
     public static final String ADD_NEW_ENROLLEE_SCREEN = "add_new_enrollee_screen";
 
@@ -38,13 +41,26 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresent
 
     private TextField schoolDocNumber;
 
+    private Grid<StudyInfo> studyInfoListGrid;
+
+    private Button addUniversity;
+
     private Button saveButton;
 
     private Enrollee enrollee;
 
+    private List<StudyInfo> studyInfoList;
+
     public AddNewEnrolleeScreen() {
         super(new VerticalLayout());
         enrollee = new Enrollee();
+        studyInfoList = new ArrayList<>();
+    }
+
+    @Override
+    protected void onPresenterSet(){
+        super.onPresenterSet();
+        getPresenter().setStudyInfoBuildListener(this);
     }
 
     @Override
@@ -60,12 +76,21 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresent
         school = new TextField("Школа");
         schoolDocNumber = new TextField("Номер аттестата");
 
+        studyInfoListGrid = new Grid<>();
+        studyInfoListGrid.addColumn(StudyInfo::getInstitution).setCaption("Университет");
+
+        addUniversity = new Button("Добавить уиверситет");
+        addUniversity.addClickListener(clickEvent -> {
+            getPresenter().addEnrollee(enrollee);
+            ScreenManager.getInstance().navigateTo(BindUniversityScreen.BIND_UNIVERSITY_SCREEN);
+        });
+
         saveButton = new Button("Сохранить");
         saveButton.addClickListener(clickEvent -> {
             save();
         });
 
-        mainLayout.addComponents(name, surname, patronymic, phone, city, street, address, personalDocNumber, school, schoolDocNumber, saveButton);
+        mainLayout.addComponents(name, surname, patronymic, phone, city, street, address, personalDocNumber, school, schoolDocNumber, addUniversity, studyInfoListGrid, saveButton);
         addComponent(mainLayout);
     }
 
@@ -87,6 +112,13 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresent
         String id = ServiceProvider.instance().getEnrolleeService().saveEnrollee(enrollee);
         if (!TextUtils.isEmpty(id)){
             enrollee.setId(Long.parseLong(id));
+
+            ServiceProvider.instance().getStudyInfoService().save(studyInfoList);
+
+            enrollee.setStudyInfo(studyInfoList);
+
+            ServiceProvider.instance().getEnrolleeService().saveEnrollee(enrollee);
+
             Notification.show("Сохранено");
         } else {
             Notification.show("Ошибка");
@@ -96,5 +128,11 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleePresent
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
 
+    }
+
+    @Override
+    public void studyInfoBuild(StudyInfo studyInfo) {
+        studyInfoList.add(studyInfo);
+        studyInfoListGrid.setItems(studyInfoList);
     }
 }

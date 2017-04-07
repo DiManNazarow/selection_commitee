@@ -31,7 +31,7 @@ public class Speciality implements JsonUtils.JSONPresentable{
     @Column(name = "speciality_name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Pulpit pulpit;
 
     public Long getId() {

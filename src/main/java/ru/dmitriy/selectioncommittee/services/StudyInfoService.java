@@ -10,6 +10,9 @@ import java.util.List;
  */
 public interface StudyInfoService {
 
-    public List<StudyInfo> getEnrolleeStudyInfo(Enrollee enrollee);
+    List<StudyInfo> getEnrolleeStudyInfo(Enrollee enrollee);
 
+    Long save(StudyInfo studyInfo);
+
+    void save(List<StudyInfo> studyInfoList);
 }

@@ -7,7 +7,7 @@ import ru.dmitriy.selectioncommittee.models.Speciality;
 import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.AddNewPulpitScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.PulpitScreensPresenter;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by diman on 20.03.17.
  */
-public class AddNewPulpitScreen extends Screen<VerticalLayout, AddNewPulpitScreenPresenter> implements AddNewPulpitScreenPresenter.SpecialityAddListener{
+public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPresenter> implements PulpitScreensPresenter.SpecialityAddListener{
 
     public static final String ADD_NEW_PULPIT_SCREEN = "add_new_pulpit_screen";
 

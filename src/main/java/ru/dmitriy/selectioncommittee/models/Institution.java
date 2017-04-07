@@ -40,7 +40,7 @@ public class Institution implements JsonUtils.JSONPresentable{
     @Column(name = "institution_type", nullable = false)
     private InstitutionType type;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Pulpit> pulpits;
 
     public Long getId() {

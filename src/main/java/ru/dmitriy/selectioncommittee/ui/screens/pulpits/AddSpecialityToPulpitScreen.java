@@ -1,15 +1,11 @@
 package ru.dmitriy.selectioncommittee.ui.screens.pulpits;
 
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
-import com.vaadin.ui.VerticalLayout;
-import ru.dmitriy.selectioncommittee.models.Pulpit;
 import ru.dmitriy.selectioncommittee.models.Speciality;
 import ru.dmitriy.selectioncommittee.ui.ListScreen;
-import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.AddNewPulpitScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.PulpitScreensPresenter;
 
 import java.util.List;
 import java.util.Set;
@@ -18,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by diman on 06.04.17.
  */
-public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, AddNewPulpitScreenPresenter> {
+public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, PulpitScreensPresenter> {
 
     public static final String ADD_SPECIALITY_TO_PULPIT_SCREEN = "add_speciality_to_pulpit_screen";
 

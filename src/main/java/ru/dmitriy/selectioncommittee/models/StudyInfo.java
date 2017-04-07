@@ -20,16 +20,16 @@ public class StudyInfo implements JsonUtils.JSONPresentable {
     @GeneratedValue(generator = "studyInfo")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Enrollee enrollee;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Institution institution;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Pulpit pulpit;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Speciality speciality;
 
     public Long getId() {

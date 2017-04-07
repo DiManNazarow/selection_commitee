@@ -14,6 +14,11 @@ public abstract class Screen<Layout extends AbstractComponent, P extends Present
     public Screen(Layout layout){
         mainLayout = layout;
         buildScreen();
+        onScreenBuild();
+    }
+
+    protected void onScreenBuild(){
+
     }
 
     protected Layout mainLayout;

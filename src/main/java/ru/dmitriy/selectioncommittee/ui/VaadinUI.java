@@ -7,6 +7,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.dmitriy.selectioncommittee.services.*;
+import ru.dmitriy.selectioncommittee.ui.event.GlobalEvent;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.screens.StartScreen;
@@ -45,6 +46,7 @@ public class VaadinUI extends UI {
         navigator = new Navigator(this, this);
         initRepository();
         ScreenManager.init(navigator);
+        GlobalEvent.instance();
 //        ScreenManager.getInstance().navigateTo(StartScreen.START_SCREEN);
     }
 

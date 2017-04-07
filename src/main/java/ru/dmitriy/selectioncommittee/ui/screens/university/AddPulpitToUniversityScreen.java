@@ -5,7 +5,7 @@ import com.vaadin.ui.Grid;
 import ru.dmitriy.selectioncommittee.models.Pulpit;
 import ru.dmitriy.selectioncommittee.ui.ListScreen;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.AddNewUniversityScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.UniversityScreensPresenter;
 
 import java.util.List;
 import java.util.Set;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by diman on 28.03.17.
  */
-public class AddPulpitToUniversityScreen extends ListScreen<Pulpit, AddNewUniversityScreenPresenter>{
+public class AddPulpitToUniversityScreen extends ListScreen<Pulpit, UniversityScreensPresenter>{
 
     public static final String ADD_PULPIT_TO_UNIVERSITY_SCREEN = "add_pulpit_to_university_screen";
 

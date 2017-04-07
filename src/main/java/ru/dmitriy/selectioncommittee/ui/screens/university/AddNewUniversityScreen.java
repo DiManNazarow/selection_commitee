@@ -7,7 +7,7 @@ import ru.dmitriy.selectioncommittee.models.Pulpit;
 import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
-import ru.dmitriy.selectioncommittee.ui.presenter.AddNewUniversityScreenPresenter;
+import ru.dmitriy.selectioncommittee.ui.presenter.UniversityScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by diman on 20.03.17.
  */
-public class AddNewUniversityScreen extends Screen<VerticalLayout, AddNewUniversityScreenPresenter> implements AddNewUniversityScreenPresenter.PulpitsAddListener {
+public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScreensPresenter> implements UniversityScreensPresenter.PulpitsAddListener {
 
     public static final String ADD_NEW_UNIVERSITY_SCREEN = "add_university_screen";
 
@@ -40,10 +40,10 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, AddNewUnivers
 
     public void buildScreen(){
         institutionName = new InputTextLayout("Название университета*");
-        institutionCity = new InputTextLayout("Город");
-        institutionStreet = new InputTextLayout("Улица");
-        institutionAddress = new InputTextLayout("Дом");
-        institutionTypeSelect = new ListSelect<>("Тип университета");
+        institutionCity = new InputTextLayout("Город*");
+        institutionStreet = new InputTextLayout("Улица*");
+        institutionAddress = new InputTextLayout("Дом*");
+        institutionTypeSelect = new ListSelect<>("Тип университета*");
         institutionTypeSelect.setItems("Уиверситет", "Техикум");
         universityPulpitList = new Grid<>();
         universityPulpitList.addColumn(Pulpit::getName).setCaption("Кафедра");
