@@ -2,6 +2,8 @@ package ru.dmitriy.selectioncommittee.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 /**
@@ -38,5 +40,9 @@ public abstract class Screen<Layout extends AbstractComponent, P extends Present
 
     public P getPresenter(){
         return presenter;
+    }
+
+    protected void scrollTo(Component component){
+        UI.getCurrent().scrollIntoView(component);
     }
 }

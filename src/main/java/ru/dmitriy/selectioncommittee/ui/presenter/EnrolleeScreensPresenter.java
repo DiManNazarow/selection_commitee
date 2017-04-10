@@ -1,11 +1,13 @@
 package ru.dmitriy.selectioncommittee.ui.presenter;
 
 import ru.dmitriy.selectioncommittee.models.Enrollee;
+import ru.dmitriy.selectioncommittee.models.Institution;
 import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.ui.Presenter;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.BindUniversityScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.university.UniversityInfoScreen;
 
 /**
  * Created by diman on 28.03.17.
@@ -18,6 +20,8 @@ public class EnrolleeScreensPresenter extends Presenter {
 
     private EnrolleeListScreen enrolleeListScreen;
 
+    private UniversityInfoScreen universityInfoScreen;
+
     public interface OnEnrolleeAddListener{
         void addEnrollee(Enrollee enrollee);
     }
@@ -29,6 +33,7 @@ public class EnrolleeScreensPresenter extends Presenter {
     private OnEnrolleeAddListener enrolleeAddListener;
 
     private OnStudyInfoBuildListener studyInfoBuildListener;
+
 
     public void setEnrolleeAddListener(OnEnrolleeAddListener enrolleeAddListener) {
         this.enrolleeAddListener = enrolleeAddListener;
@@ -60,6 +65,14 @@ public class EnrolleeScreensPresenter extends Presenter {
 
     public void setEnrolleeListScreen(EnrolleeListScreen enrolleeListScreen) {
         this.enrolleeListScreen = enrolleeListScreen;
+    }
+
+    public UniversityInfoScreen getUniversityInfoScreen() {
+        return universityInfoScreen;
+    }
+
+    public void setUniversityInfoScreen(UniversityInfoScreen universityInfoScreen) {
+        this.universityInfoScreen = universityInfoScreen;
     }
 
     public void addEnrollee(Enrollee enrollee){

@@ -9,10 +9,14 @@ import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
+import ru.dmitriy.selectioncommittee.ui.screens.university.UniversityInfoScreen;
+import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
+import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
@@ -21,25 +25,25 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     public static final String ADD_NEW_ENROLLEE_SCREEN = "add_new_enrollee_screen";
 
-    private TextField name;
+    private InputTextLayout name;
 
-    private TextField surname;
+    private InputTextLayout surname;
 
-    private TextField patronymic;
+    private InputTextLayout patronymic;
 
-    private TextField phone;
+    private InputTextLayout phone;
 
-    private TextField city;
+    private InputTextLayout city;
 
-    private TextField street;
+    private InputTextLayout street;
 
-    private TextField address;
+    private InputTextLayout address;
 
-    private TextField personalDocNumber;
+    private InputTextLayout personalDocNumber;
 
-    private TextField school;
+    private InputTextLayout school;
 
-    private TextField schoolDocNumber;
+    private InputTextLayout schoolDocNumber;
 
     private Grid<StudyInfo> studyInfoListGrid;
 
@@ -65,19 +69,27 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     @Override
     public void buildScreen() {
-        name = new TextField("Имя");
-        surname = new TextField("Фамилия");
-        patronymic = new TextField("Отчество");
-        phone = new TextField("Телефон");
-        city = new TextField("Город");
-        street = new TextField("Улица");
-        address = new TextField("Дом");
-        personalDocNumber = new TextField("Номер паспорта");
-        school = new TextField("Школа");
-        schoolDocNumber = new TextField("Номер аттестата");
+        name = new InputTextLayout("Имя*");
+        surname = new InputTextLayout("Фамилия*");
+        patronymic = new InputTextLayout("Отчество");
+        phone = new InputTextLayout("Телефон*");
+        city = new InputTextLayout("Город*");
+        street = new InputTextLayout("Улица*");
+        address = new InputTextLayout("Дом*");
+        personalDocNumber = new InputTextLayout("Номер паспорта*");
+        school = new InputTextLayout("Школа*");
+        schoolDocNumber = new InputTextLayout("Номер аттестата*");
 
         studyInfoListGrid = new Grid<>();
-        studyInfoListGrid.addColumn(StudyInfo::getInstitution).setCaption("Университет");
+
+        studyInfoListGrid.addColumn(studyInfo -> studyInfo.getInstitution().getName()).setCaption("Университет");
+        studyInfoListGrid.addColumn(studyInfo -> studyInfo.getPulpit().getName()).setCaption("Кафедра");
+        studyInfoListGrid.addColumn(studyInfo -> String.format(Locale.getDefault(), "%s %s", studyInfo.getSpeciality().getSpecialNumber(), studyInfo.getSpeciality().getName())).setCaption("Специальность");
+
+        studyInfoListGrid.addItemClickListener(clickEvent -> {
+            getPresenter().getUniversityInfoScreen().setInstitution(clickEvent.getItem().getInstitution());
+            ScreenManager.getInstance().navigateTo(UniversityInfoScreen.UNIVERSITY_INFO_SCREEN);
+        });
 
         addUniversity = new Button("Добавить уиверситет");
         addUniversity.addClickListener(clickEvent -> {
@@ -98,16 +110,20 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
         if (enrollee.getId() != null){
             enrollee = new Enrollee();
         }
-        enrollee.setName(name.getValue());
-        enrollee.setSurname(surname.getValue());
-        enrollee.setPatronymic(patronymic.getValue());
-        enrollee.setPhone(phone.getValue());
-        enrollee.setCity(city.getValue());
-        enrollee.setStreet(street.getValue());
-        enrollee.setAddress(address.getValue());
-        enrollee.setPersonalDocNumber(personalDocNumber.getValue());
-        enrollee.setSchool(school.getValue());
-        enrollee.setSchoolDocNumber(schoolDocNumber.getValue());
+        enrollee.setName(name.getText());
+        enrollee.setSurname(surname.getText());
+        enrollee.setPatronymic(patronymic.getText());
+        enrollee.setPhone(phone.getText());
+        enrollee.setCity(city.getText());
+        enrollee.setStreet(street.getText());
+        enrollee.setAddress(address.getText());
+        enrollee.setPersonalDocNumber(personalDocNumber.getText());
+        enrollee.setSchool(school.getText());
+        enrollee.setSchoolDocNumber(schoolDocNumber.getText());
+
+        if (!checkField()){
+            return;
+        }
 
         String id = ServiceProvider.instance().getEnrolleeService().saveEnrollee(enrollee);
         if (!TextUtils.isEmpty(id)){
@@ -123,6 +139,69 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
         } else {
             Notification.show("Ошибка");
         }
+    }
+
+    private boolean checkField(){
+        boolean allFill = true;
+        if (name.isTextEmpty()){
+            name.showError();
+            scrollTo(name);
+            showError();
+            allFill = false;
+        } else if (surname.isTextEmpty()){
+            surname.showError();
+            scrollTo(surname);
+            showError();
+            allFill = false;
+        } else if (phone.isTextEmpty()) {
+            phone.showError();
+            scrollTo(phone);
+            showError();
+            allFill = false;
+        } else if (city.isTextEmpty()) {
+            city.showError();
+            scrollTo(city);
+            showError();
+            allFill = false;
+        } else if (street.isTextEmpty()) {
+            street.showError();
+            scrollTo(street);
+            showError();
+            allFill = false;
+        } else if (address.isTextEmpty()) {
+            address.showError();
+            scrollTo(address);
+            showError();
+            allFill = false;
+        } else if (personalDocNumber.isTextEmpty()) {
+            personalDocNumber.showError();
+            scrollTo(personalDocNumber);
+            showError();
+            allFill = false;
+        } else if (school.isTextEmpty()) {
+            school.showError();
+            scrollTo(school);
+            showError();
+            allFill = false;
+        } else if (schoolDocNumber.isTextEmpty()) {
+            schoolDocNumber.showError();
+            scrollTo(schoolDocNumber);
+            showError();
+            allFill = false;
+        } else if (studyInfoList == null || studyInfoList.size() == 0){
+            showEmptyUniversity();
+            scrollTo(studyInfoListGrid);
+            allFill = false;
+        }
+        return allFill;
+    }
+
+    private void showError(){
+        GuiUtils.showErrorMessage("Заполните обязательные поля");
+    }
+
+    private void showEmptyUniversity(){
+        GuiUtils.showErrorMessage("Добавьте учебные заведения");
     }
 
     @Override

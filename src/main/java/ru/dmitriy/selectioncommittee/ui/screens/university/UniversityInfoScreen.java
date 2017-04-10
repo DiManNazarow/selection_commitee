@@ -69,6 +69,10 @@ public class UniversityInfoScreen extends Screen<VerticalLayout, UniversityScree
         refresh();
     }
 
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
     private void refresh(){
         if (institution != null){
             institutionName.setValue(institution.getName());

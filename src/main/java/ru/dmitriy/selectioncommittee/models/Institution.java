@@ -146,6 +146,10 @@ public class Institution implements JsonUtils.JSONPresentable{
             return type;
         }
 
+        public static int getSize(){
+            return InstitutionType.values().length;
+        }
+
         public static InstitutionType getByTag(String type) throws TypeNotFoundException{
             switch (type){
                 case "Уиверситет": return UNIVERSITY;

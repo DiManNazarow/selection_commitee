@@ -8,6 +8,8 @@ import ru.dmitriy.selectioncommittee.ui.Screen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.PulpitScreensPresenter;
+import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
+import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 import java.util.List;
@@ -21,13 +23,15 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
 
     private Pulpit pulpit;
 
-    private TextField pulpitName;
+    private InputTextLayout pulpitName;
 
     private Button pulpitSaveButton;
 
     private Button addSpecialityButton;
 
     private Grid<Speciality> specialityList;
+
+    private List<Speciality> specialities;
 
     public AddNewPulpitScreen() {
         super(new VerticalLayout());
@@ -42,7 +46,7 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
 
     @Override
     public void buildScreen(){
-        pulpitName = new TextField("Название кафедры");
+        pulpitName = new InputTextLayout("Название кафедры*");
 
         addSpecialityButton = new Button("Добавить специальности");
         addSpecialityButton.addClickListener(clickEvent -> {
@@ -66,7 +70,12 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
         if (pulpit.getId() != null){
             pulpit = new Pulpit();
         }
-        pulpit.setName(pulpitName.getValue());
+        pulpit.setName(pulpitName.getText());
+
+        if (!checkField()){
+            return;
+        }
+
         String id = ServiceProvider.instance().getPulpitService().savePulpit(pulpit);
         if (!TextUtils.isEmpty(id)){
             pulpit.setId(Long.parseLong(id));
@@ -75,6 +84,28 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
         } else {
             Notification.show("Ошибка");
         }
+    }
+
+    private boolean checkField(){
+        boolean allFill = true;
+        if (pulpitName.isTextEmpty()){
+            pulpitName.showError();
+            scrollTo(pulpitName);
+            showError();
+            allFill = false;
+        } else if (specialities == null || specialities.size() == 0){
+            scrollTo(specialityList);
+            showEmptySpecialities();
+        }
+        return allFill;
+    }
+
+    private void showError(){
+        GuiUtils.showErrorMessage("Заполните обязательные поля");
+    }
+
+    private void showEmptySpecialities(){
+        GuiUtils.showErrorMessage("Добавьте специальности");
     }
 
     @Override
@@ -86,6 +117,7 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
 
     @Override
     public void specialityAdded(List<Speciality> specialities) {
+        this.specialities = specialities;
         if (pulpit != null){
             pulpit.setSpecialities(specialities);
             pulpit.getSpecialities().forEach(speciality -> speciality.setPulpit(pulpit));

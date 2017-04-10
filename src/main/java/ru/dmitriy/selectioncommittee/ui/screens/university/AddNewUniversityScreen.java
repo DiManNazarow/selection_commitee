@@ -33,6 +33,8 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
 
     private Institution institution;
 
+    private List<Pulpit> pulpits;
+
     public AddNewUniversityScreen() {
         super(new VerticalLayout());
         institution = new Institution();
@@ -43,8 +45,11 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
         institutionCity = new InputTextLayout("Город*");
         institutionStreet = new InputTextLayout("Улица*");
         institutionAddress = new InputTextLayout("Дом*");
+
         institutionTypeSelect = new ListSelect<>("Тип университета*");
         institutionTypeSelect.setItems("Уиверситет", "Техикум");
+        institutionTypeSelect.setHeight(Institution.InstitutionType.getSize() + 2, Unit.EM);
+
         universityPulpitList = new Grid<>();
         universityPulpitList.addColumn(Pulpit::getName).setCaption("Кафедра");
         addPulpitsButton = new Button("Добавить кафедры");
@@ -92,22 +97,31 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
         boolean allFill = true;
         if (institutionName.isTextEmpty()){
             institutionName.showError();
+            scrollTo(institutionName);
             showError();
             allFill = false;
         } else if (institutionCity.isTextEmpty()){
             institutionCity.showError();
+            scrollTo(institutionCity);
             showError();
             allFill = false;
         } else if (institutionAddress.isTextEmpty()) {
             institutionAddress.showError();
+            scrollTo(institutionAddress);
             showError();
             allFill = false;
         } else if (institutionStreet.isTextEmpty()) {
             institutionStreet.showError();
+            scrollTo(institutionStreet);
             showError();
             allFill = false;
         } else if (institution.getType()==null){
+            scrollTo(institutionTypeSelect);
             showError();
+            allFill = false;
+        } else if (pulpits == null || pulpits.size() == 0){
+            scrollTo(universityPulpitList);
+            showEmptyPulpits();
             allFill = false;
         }
         return allFill;
@@ -115,6 +129,10 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
 
     private void showError(){
         GuiUtils.showErrorMessage("Заполните обязательные поля");
+    }
+
+    private void showEmptyPulpits(){
+        GuiUtils.showErrorMessage("Добавьте кафедры");
     }
 
     @Override
@@ -132,6 +150,7 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
 
     @Override
     public void pulpitsAdded(List<Pulpit> pulpitList) {
+        this.pulpits = pulpitList;
         if (institution != null){
             institution.setPulpits(pulpitList);
             institution.getPulpits().forEach(pulpit -> { pulpit.setInstitution(institution); });

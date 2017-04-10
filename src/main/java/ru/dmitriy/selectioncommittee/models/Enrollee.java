@@ -31,7 +31,7 @@ public class Enrollee implements JsonUtils.JSONPresentable{
     @Column(name = "surname", nullable = false)
     private String surname;
 
-    @Column(name = "patronymic", nullable = false)
+    @Column(name = "patronymic")
     private String patronymic;
 
     @Column(name = "phone", unique = true, nullable = false)
