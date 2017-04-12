@@ -8,6 +8,7 @@ import ru.dmitriy.selectioncommittee.ui.presenter.UniversityScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.screens.*;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.BindUniversityScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeInfoScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddNewPulpitScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddSpecialityToPulpitScreen;
@@ -105,14 +106,17 @@ public class ScreenManager {
         AddNewEnrolleeScreen addNewEnrolleeScreen = new AddNewEnrolleeScreen();
         BindUniversityScreen bindUniversityScreen = new BindUniversityScreen();
         EnrolleeListScreen enrolleeListScreen =  new EnrolleeListScreen();
+        EnrolleeInfoScreen enrolleeInfoScreen = new EnrolleeInfoScreen();
 
         enrolleeScreensPresenter.setAddNewEnrolleeScreen(addNewEnrolleeScreen);
         enrolleeScreensPresenter.setBindUniversityScreen(bindUniversityScreen);
         enrolleeScreensPresenter.setEnrolleeListScreen(enrolleeListScreen);
+        enrolleeScreensPresenter.setEnrolleeInfoScreen(enrolleeInfoScreen);
 
         addNewEnrolleeScreen.setPresenter(enrolleeScreensPresenter);
         bindUniversityScreen.setPresenter(enrolleeScreensPresenter);
         enrolleeListScreen.setPresenter(enrolleeScreensPresenter);
+        enrolleeInfoScreen.setPresenter(enrolleeScreensPresenter);
 
         navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, universityListScreen);;
         navigator.addView(PulpitListScreen.PULPIT_SCREEN_LIST, pulpitListScreen);
@@ -130,6 +134,7 @@ public class ScreenManager {
         navigator.addView(AddNewEnrolleeScreen.ADD_NEW_ENROLLEE_SCREEN, addNewEnrolleeScreen);
         navigator.addView(BindUniversityScreen.BIND_UNIVERSITY_SCREEN, bindUniversityScreen);
         navigator.addView(EnrolleeListScreen.ENROLLEE_LIST_SCREEN, enrolleeListScreen);
+        navigator.addView(EnrolleeInfoScreen.ENROLLEE_INFO_SCREEN, enrolleeInfoScreen);
     }
 
     public void navigateTo(String screenName){
