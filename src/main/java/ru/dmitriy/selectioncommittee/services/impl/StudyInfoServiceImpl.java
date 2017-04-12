@@ -6,6 +6,7 @@ import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.repositories.StudyInfoRepository;
 import ru.dmitriy.selectioncommittee.services.StudyInfoService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,11 @@ public class StudyInfoServiceImpl implements StudyInfoService {
     @Override
     public void save(List<StudyInfo> studyInfoList) {
         studyInfoRepository.save(studyInfoList);
+    }
+
+    @Override
+    public List<StudyInfo> getAll() {
+        return (ArrayList<StudyInfo>)studyInfoRepository.findAll();
     }
 
 }

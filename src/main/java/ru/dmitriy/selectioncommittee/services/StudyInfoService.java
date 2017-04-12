@@ -15,4 +15,6 @@ public interface StudyInfoService {
     Long save(StudyInfo studyInfo);
 
     void save(List<StudyInfo> studyInfoList);
+
+    List<StudyInfo> getAll();
 }
