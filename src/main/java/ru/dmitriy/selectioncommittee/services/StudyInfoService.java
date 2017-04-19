@@ -17,4 +17,8 @@ public interface StudyInfoService {
     void save(List<StudyInfo> studyInfoList);
 
     List<StudyInfo> getAll();
+
+    List<StudyInfo> findByUniversity(String university);
+
+    List<StudyInfo> findBySpeciality(String speciality);
 }

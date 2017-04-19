@@ -30,7 +30,7 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
     private InputTextLayout surname;
 
     private InputTextLayout patronymic;
-    
+
     private InputTextLayout phone;
 
     private InputTextLayout city;

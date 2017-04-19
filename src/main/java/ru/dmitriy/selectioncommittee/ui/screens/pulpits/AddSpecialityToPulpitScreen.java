@@ -4,6 +4,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import ru.dmitriy.selectioncommittee.models.Speciality;
 import ru.dmitriy.selectioncommittee.ui.ListScreen;
+import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.PulpitScreensPresenter;
 
@@ -31,6 +32,7 @@ public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, PulpitSc
         addButton  = new Button("Добавить");
         addButton.addClickListener(clickEvent -> {
             getPresenter().addSpeciality(selectedPulpits);
+            ScreenManager.getInstance().navigateTo(AddNewPulpitScreen.ADD_NEW_PULPIT_SCREEN);
         });
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addSelectionListener(selectionEvent -> {
