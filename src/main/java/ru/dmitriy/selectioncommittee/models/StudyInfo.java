@@ -5,6 +5,10 @@ import org.hibernate.annotations.GenericGenerator;
 import ru.dmitriy.selectioncommittee.utils.JsonUtils;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Dmitriy Nazarow on 11.03.17.
@@ -12,13 +16,16 @@ import javax.persistence.*;
 
 @Entity
 @Table( name = "StudyInfo")
-public class StudyInfo implements JsonUtils.JSONPresentable {
+public class StudyInfo {
 
     @Id
     @Column(name = "speciality_id", unique = true, nullable = false)
     @GenericGenerator(name = "studyInfo", strategy = "increment")
     @GeneratedValue(generator = "studyInfo")
     private Long id;
+
+    @Column(name = "study_state", nullable = false)
+    private int studyState;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Enrollee enrollee;
@@ -72,31 +79,66 @@ public class StudyInfo implements JsonUtils.JSONPresentable {
         this.speciality = speciality;
     }
 
-    @Override
-    public JsonObject asJSON() {
-        JsonObject studyInfoAsJson = new JsonObject();
-        studyInfoAsJson.addProperty(JsonFieldName.ENROLLEE, enrollee.asJSON().toString());
-        studyInfoAsJson.addProperty(JsonFieldName.INSTITUTE, institution.asJSON().toString());
-        studyInfoAsJson.addProperty(JsonFieldName.PULPIT, pulpit.asJSON().toString());
-        studyInfoAsJson.addProperty(JsonFieldName.SPECIALITY, speciality.asJSON().toString());
-        studyInfoAsJson.addProperty(JsonFieldName.ENROLLEE, enrollee.asJSON().toString());
-        return studyInfoAsJson;
+    public StudyState getStudyState() {
+        return StudyState.getByState(studyState);
     }
 
-    public static final JsonUtils.JSONParcel<StudyInfo> PARCEL = studyInfoAsJson -> {
-        StudyInfo studyInfo = new StudyInfo();
-        studyInfo.setEnrollee(Enrollee.PARCEL.fromJSONObject(studyInfoAsJson.get(JsonFieldName.ENROLLEE).getAsJsonObject()));
-        studyInfo.setInstitution(Institution.PARCEL.fromJSONObject(studyInfoAsJson.get(JsonFieldName.INSTITUTE).getAsJsonObject()));
-        studyInfo.setPulpit(Pulpit.PARCEL.fromJSONObject(studyInfoAsJson.get(JsonFieldName.PULPIT).getAsJsonObject()));
-        studyInfo.setSpeciality(Speciality.PARCEL.fromJSONObject(studyInfoAsJson.get(JsonFieldName.SPECIALITY).getAsJsonObject()));
-        //studyInfo.setEnrollee(JsonUtils.asList(studyInfoAsJson.getAsJsonArray(JsonFieldName.ENROLLEE), Enrollee.PARCEL));
-        return studyInfo;
-    };
+    public void setStudyState(StudyState studyState) {
+        this.studyState = studyState.getState();
+    }
 
-    public static class JsonFieldName{
-        public static final String ENROLLEE = "enrollee";
-        public static final String INSTITUTE = "institute";
-        public static final String SPECIALITY = "speciality";
-        public static final String PULPIT = "pulpit";
+    public enum StudyState{
+        ENTER(0, "Поступает"),
+        STUDY(1, "Обучается"),
+        ENDED(2, "Закочил");
+
+        private int state;
+
+        private String name;
+
+        StudyState(int state, String name){
+            this.state = state;
+            this.name = name;
+        }
+
+        public int getState() {
+            return state;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static StudyState getByName(String name){
+            StudyState studyState = null;
+            switch (name){
+                case "Поступает": studyState = ENTER; break;
+                case "Обучается": studyState = STUDY; break;
+                case "Закочил": studyState = ENDED; break;
+            }
+            return studyState;
+        }
+
+        public static StudyState getByState(int state){
+            StudyState studyState = null;
+            switch (state){
+                case 0: studyState = ENTER; break;
+                case 1: studyState = STUDY; break;
+                case 2: studyState = ENDED; break;
+            }
+            return studyState;
+        }
+
+        public static int getSize(){
+            return StudyState.values().length;
+        }
+
+        public static List<String> getStudyStateNames(){
+            List<String> studyStates = new ArrayList<>();
+            studyStates.add(ENTER.getName());
+            studyStates.add(STUDY.getName());
+            studyStates.add(ENDED.getName());
+            return studyStates;
+        }
     }
 }

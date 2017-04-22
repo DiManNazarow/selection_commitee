@@ -4,9 +4,12 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import ru.dmitriy.selectioncommittee.models.Enrollee;
 import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.ui.Screen;
+import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
+import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
 
@@ -15,7 +18,7 @@ import java.util.Locale;
 /**
  * Created by diman on 12.04.17.
  */
-public class EnrolleeInfoScreen extends Screen<VerticalLayout, EnrolleeScreensPresenter> implements EnrolleeScreensPresenter.ShowEnrolleeListener{
+public class EnrolleeInfoScreen extends Screen<VerticalLayout, EnrolleeScreensPresenter> implements EnrolleeScreensPresenter.ShowEnrolleeListener, EnrolleeScreensPresenter.UpdateStudyInfo{
 
     public static final String ENROLLEE_INFO_SCREEN = "enrollee_info_screen";
 
@@ -71,6 +74,10 @@ public class EnrolleeInfoScreen extends Screen<VerticalLayout, EnrolleeScreensPr
         studyInfoListGrid.addColumn(studyInfo -> studyInfo.getInstitution().getName()).setCaption("Университет");
         studyInfoListGrid.addColumn(studyInfo -> studyInfo.getPulpit().getName()).setCaption("Кафедра");
         studyInfoListGrid.addColumn(studyInfo -> String.format(Locale.getDefault(), "%s %s", studyInfo.getSpeciality().getSpecialNumber(), studyInfo.getSpeciality().getName())).setCaption("Специальность");
+        studyInfoListGrid.addItemClickListener(itemClick -> {
+            getPresenter().editStudyInfo(itemClick.getItem());
+            ScreenManager.getInstance().navigateTo(EditStudyInfoScreen.EDIT_STUDY_INFO_SCREEN);
+        });
 
         mainLayout.addComponents(name, surname, patronymic, phone, city, street, address, personalDocNumber, school, schoolDocNumber, studyInfoListGrid);
         addComponent(mainLayout);
@@ -99,5 +106,10 @@ public class EnrolleeInfoScreen extends Screen<VerticalLayout, EnrolleeScreensPr
         school.setValue(enrollee.getName());
         schoolDocNumber.setValue(enrollee.getName());
         studyInfoListGrid.setItems(enrollee.getStudyInfo());
+    }
+
+    @Override
+    public void updateStudyInfo() {
+        studyInfoListGrid.setItems(ServiceProvider.instance().getStudyInfoService().getEnrolleeStudyInfo(enrollee));
     }
 }

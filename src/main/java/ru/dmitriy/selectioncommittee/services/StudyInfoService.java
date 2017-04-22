@@ -21,4 +21,12 @@ public interface StudyInfoService {
     List<StudyInfo> findByUniversity(String university);
 
     List<StudyInfo> findBySpeciality(String speciality);
+
+    List<StudyInfo> searchByPulpit(String pulpit);
+
+    List<StudyInfo> searchByInitials(String initials);
+
+    List<StudyInfo> chooseByUniversityAndStudyState(String university, StudyInfo.StudyState studyState);
+
+    List<StudyInfo> chooseBySpecialityAndStudyState(String speciality, StudyInfo.StudyState studyState);
 }

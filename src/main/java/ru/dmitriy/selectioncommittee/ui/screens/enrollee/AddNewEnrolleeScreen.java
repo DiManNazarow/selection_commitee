@@ -15,6 +15,7 @@ import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -86,10 +87,10 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
         studyInfoListGrid.addColumn(studyInfo -> studyInfo.getPulpit().getName()).setCaption("Кафедра");
         studyInfoListGrid.addColumn(studyInfo -> String.format(Locale.getDefault(), "%s %s", studyInfo.getSpeciality().getSpecialNumber(), studyInfo.getSpeciality().getName())).setCaption("Специальность");
 
-        studyInfoListGrid.addItemClickListener(clickEvent -> {
-            getPresenter().getUniversityInfoScreen().setInstitution(clickEvent.getItem().getInstitution());
-            ScreenManager.getInstance().navigateTo(UniversityInfoScreen.UNIVERSITY_INFO_SCREEN);
-        });
+//        studyInfoListGrid.addItemClickListener(clickEvent -> {
+//            getPresenter().editStudyInfo(clickEvent.getItem());
+//            ScreenManager.getInstance().navigateTo(EditStudyInfoScreen.EDIT_STUDY_INFO_SCREEN);
+//        });
 
         addUniversity = new Button("Добавить уиверситет");
         addUniversity.addClickListener(clickEvent -> {

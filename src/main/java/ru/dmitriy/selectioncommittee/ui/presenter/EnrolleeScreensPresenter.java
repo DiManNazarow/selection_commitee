@@ -4,10 +4,7 @@ import ru.dmitriy.selectioncommittee.models.Enrollee;
 import ru.dmitriy.selectioncommittee.models.Institution;
 import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.ui.Presenter;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.BindUniversityScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeInfoScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.enrollee.*;
 import ru.dmitriy.selectioncommittee.ui.screens.university.UniversityInfoScreen;
 
 /**
@@ -25,6 +22,8 @@ public class EnrolleeScreensPresenter extends Presenter {
 
     private EnrolleeInfoScreen enrolleeInfoScreen;
 
+    private EditStudyInfoScreen editStudyInfoScreen;
+
     public interface OnEnrolleeAddListener{
         void addEnrollee(Enrollee enrollee);
     }
@@ -37,11 +36,23 @@ public class EnrolleeScreensPresenter extends Presenter {
         void showEnrollee(Enrollee enrollee);
     }
 
+    public interface EditStudyInfoListener{
+        void editStudyInfo(StudyInfo studyInfo);
+    }
+
+    public interface UpdateStudyInfo{
+        void updateStudyInfo();
+    }
+
     private OnEnrolleeAddListener enrolleeAddListener;
 
     private OnStudyInfoBuildListener studyInfoBuildListener;
 
     private ShowEnrolleeListener showEnrolleeListener;
+
+    private EditStudyInfoListener editStudyInfoListener;
+
+    private UpdateStudyInfo updateStudyInfo;
 
     public void setEnrolleeAddListener(OnEnrolleeAddListener enrolleeAddListener) {
         this.enrolleeAddListener = enrolleeAddListener;
@@ -53,6 +64,14 @@ public class EnrolleeScreensPresenter extends Presenter {
 
     public void setShowEnrolleeListener(ShowEnrolleeListener showEnrolleeListener) {
         this.showEnrolleeListener = showEnrolleeListener;
+    }
+
+    public void setEditStudyInfoListener(EditStudyInfoListener editStudyInfoListener) {
+        this.editStudyInfoListener = editStudyInfoListener;
+    }
+
+    public void setUpdateStudyInfo(UpdateStudyInfo updateStudyInfo) {
+        this.updateStudyInfo = updateStudyInfo;
     }
 
     public AddNewEnrolleeScreen getAddNewEnrolleeScreen() {
@@ -87,6 +106,14 @@ public class EnrolleeScreensPresenter extends Presenter {
         this.universityInfoScreen = universityInfoScreen;
     }
 
+    public EditStudyInfoScreen getEditStudyInfoScreen() {
+        return editStudyInfoScreen;
+    }
+
+    public void setEditStudyInfoScreen(EditStudyInfoScreen editStudyInfoScreen) {
+        this.editStudyInfoScreen = editStudyInfoScreen;
+    }
+
     public EnrolleeInfoScreen getEnrolleeInfoScreen() {
         return enrolleeInfoScreen;
     }
@@ -110,6 +137,18 @@ public class EnrolleeScreensPresenter extends Presenter {
     public void showEnrollee(Enrollee enrollee){
         if (showEnrolleeListener != null){
             showEnrolleeListener.showEnrollee(enrollee);
+        }
+    }
+
+    public void editStudyInfo(StudyInfo studyInfo){
+        if (editStudyInfoListener != null){
+            editStudyInfoListener.editStudyInfo(studyInfo);
+        }
+    }
+
+    public void updateStudyInfo(){
+        if (updateStudyInfo != null){
+            updateStudyInfo.updateStudyInfo();
         }
     }
 }

@@ -2,6 +2,7 @@ package ru.dmitriy.selectioncommittee.ui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
@@ -52,6 +53,7 @@ public class SearchView extends HorizontalLayout implements View {
         });
 
         addComponents(searchField, searchButton);
+        setComponentAlignment(searchButton, Alignment.BOTTOM_RIGHT);
 
     }
 

@@ -1,15 +1,13 @@
 package ru.dmitriy.selectioncommittee.ui.manager;
 
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.Page;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.presenter.PulpitScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.presenter.SpecialityScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.presenter.UniversityScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.screens.*;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.AddNewEnrolleeScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.BindUniversityScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeInfoScreen;
-import ru.dmitriy.selectioncommittee.ui.screens.enrollee.EnrolleeListScreen;
+import ru.dmitriy.selectioncommittee.ui.screens.enrollee.*;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddNewPulpitScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.AddSpecialityToPulpitScreen;
 import ru.dmitriy.selectioncommittee.ui.screens.pulpits.PulpitInfoScreen;
@@ -107,16 +105,19 @@ public class ScreenManager {
         BindUniversityScreen bindUniversityScreen = new BindUniversityScreen();
         EnrolleeListScreen enrolleeListScreen =  new EnrolleeListScreen();
         EnrolleeInfoScreen enrolleeInfoScreen = new EnrolleeInfoScreen();
+        EditStudyInfoScreen editStudyInfoScreen = new EditStudyInfoScreen();
 
         enrolleeScreensPresenter.setAddNewEnrolleeScreen(addNewEnrolleeScreen);
         enrolleeScreensPresenter.setBindUniversityScreen(bindUniversityScreen);
         enrolleeScreensPresenter.setEnrolleeListScreen(enrolleeListScreen);
         enrolleeScreensPresenter.setEnrolleeInfoScreen(enrolleeInfoScreen);
+        enrolleeScreensPresenter.setEditStudyInfoScreen(editStudyInfoScreen);
 
         addNewEnrolleeScreen.setPresenter(enrolleeScreensPresenter);
         bindUniversityScreen.setPresenter(enrolleeScreensPresenter);
         enrolleeListScreen.setPresenter(enrolleeScreensPresenter);
         enrolleeInfoScreen.setPresenter(enrolleeScreensPresenter);
+        editStudyInfoScreen.setPresenter(enrolleeScreensPresenter);
 
         navigator.addView(UniversityListScreen.UNIVERSITY_SCREEN_LIST, universityListScreen);;
         navigator.addView(PulpitListScreen.PULPIT_SCREEN_LIST, pulpitListScreen);
@@ -126,6 +127,7 @@ public class ScreenManager {
         navigator.addView(AddNewPulpitScreen.ADD_NEW_PULPIT_SCREEN, addNewPulpitScreen);
         navigator.addView(AddSpecialityToPulpitScreen.ADD_SPECIALITY_TO_PULPIT_SCREEN, addSpecialityToPulpitScreen);
         navigator.addView(PulpitInfoScreen.PULPIT_INFO_SCREEN, pulpitInfoScreen);
+        navigator.addView(EditStudyInfoScreen.EDIT_STUDY_INFO_SCREEN, editStudyInfoScreen);
 
         navigator.addView(AddNewSpecialityScreen.ADD_NEW_SPECIALITY_SCREEN, addNewSpecialityScreen);
         navigator.addView(SpecialityInfoScreen.SPECIALITY_INFO_SCREEN, specialityInfoScreen);
@@ -139,6 +141,10 @@ public class ScreenManager {
 
     public void navigateTo(String screenName){
         navigator.navigateTo(screenName);
+    }
+
+    public void navigateBack(){
+        Page.getCurrent().getJavaScript().execute("history.back()");
     }
 
     public static class ScreenNotInitException extends Exception{

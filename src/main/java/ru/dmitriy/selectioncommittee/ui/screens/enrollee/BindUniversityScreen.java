@@ -1,15 +1,21 @@
 package ru.dmitriy.selectioncommittee.ui.screens.enrollee;
 
+import com.vaadin.data.HasValue;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.VerticalLayout;
 import ru.dmitriy.selectioncommittee.models.*;
 import ru.dmitriy.selectioncommittee.ui.Screen;
+import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dmitriy Nazarow on 07.04.17.
@@ -18,23 +24,27 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     public static final String BIND_UNIVERSITY_SCREEN = "bind_university_screen";
 
-    private Grid<Institution> institutionList;
+    protected Grid<Institution> institutionList;
 
-    private Grid<Pulpit> pulpitList;
+    protected Grid<Pulpit> pulpitList;
 
-    private Grid<Speciality> specialityList;
+    protected Grid<Speciality> specialityList;
+
+    protected ListSelect<String> studyStateList;
 
     private Button save;
 
-    private Enrollee enrollee;
+    protected Enrollee enrollee;
 
-    private StudyInfo studyInfo;
+    protected StudyInfo studyInfo;
 
-    private Institution institution;
+    protected Institution institution;
 
-    private Pulpit pulpit;
+    protected Pulpit pulpit;
 
-    private Speciality speciality;
+    protected Speciality speciality;
+
+    protected StudyInfo.StudyState studyState;
 
     public BindUniversityScreen() {
         super(new VerticalLayout());
@@ -54,6 +64,7 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         save = new Button("Сохранить");
         save.addClickListener(clickEvent -> {
             buildStudyInfo();
+            ScreenManager.getInstance().navigateBack();
         });
 
         institutionList.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -66,6 +77,10 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         pulpitList.addColumn(Pulpit::getName).setCaption("Кафедра");
         specialityList.addColumn(Speciality::getName).setCaption("Специальность");
 
+        studyStateList = new ListSelect<>("Состояние обучающегося*");
+        studyStateList.setItems(StudyInfo.StudyState.getStudyStateNames());
+        studyStateList.setHeight(StudyInfo.StudyState.getSize() + 2, Unit.EM);
+
         institutionList.addItemClickListener(itemClick -> {
             institution = itemClick.getItem();
             showPulpit(itemClick.getItem().getPulpits());
@@ -77,7 +92,15 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         specialityList.addItemClickListener(itemClick -> {
             speciality = itemClick.getItem();
         });
-        mainLayout.addComponents(institutionList, pulpitList, specialityList, save);
+
+        studyStateList.addValueChangeListener(new HasValue.ValueChangeListener<Set<String>>() {
+            @Override
+            public void valueChange(HasValue.ValueChangeEvent<Set<String>> valueChangeEvent) {
+                studyState = StudyInfo.StudyState.getByName(valueChangeEvent.getValue().stream().findFirst().get());
+            }
+        });
+
+        mainLayout.addComponents(institutionList, pulpitList, specialityList, studyStateList, save);
         addComponent(mainLayout);
     }
 
@@ -101,7 +124,7 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         specialityList.setItems(specialities);
     }
 
-    private void buildStudyInfo(){
+    protected void buildStudyInfo(){
         if (enrollee != null) {
             studyInfo.setEnrollee(enrollee);
         }
@@ -113,6 +136,9 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         }
         if (speciality != null){
             studyInfo.setSpeciality(speciality);
+        }
+        if (studyState != null){
+            studyInfo.setStudyState(studyState);
         }
         getPresenter().buildStudyInfo(studyInfo);
     }
