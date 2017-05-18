@@ -1,15 +1,17 @@
 package ru.dmitriy.selectioncommittee.ui.screens.enrollee;
 
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.renderers.ButtonRenderer;
 import ru.dmitriy.selectioncommittee.models.StudyInfo;
 import ru.dmitriy.selectioncommittee.ui.ListScreen;
 import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.views.SearchView;
+import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 
 import java.util.List;
-import java.util.Timer;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
@@ -32,6 +34,10 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
     private SearchView chooseEnterEnrollee;
 
+    private SearchView countEnded;
+
+    private SearchView averageAgeSpeciality;
+
     @Override
     public void buildScreen() {
         searchComponentContainer = new HorizontalLayout();
@@ -42,9 +48,11 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
         chooseEndedEnrollee = new SearchView("Техикум который закочили");
         chooseEnterEnrollee = new SearchView("Специальость на которую поступают");
-        chooseComponentContainer.addComponents(chooseEnterEnrollee, chooseEndedEnrollee);
+        countEnded = new SearchView("Количество окончивших\n универсистет");
+        averageAgeSpeciality = new SearchView("Средний возраст\n специальности");
+        chooseComponentContainer.addComponents(chooseEnterEnrollee, chooseEndedEnrollee, averageAgeSpeciality);
 
-        searchComponentContainer.addComponents(searchByInitials, searchBySpeciality, searchByPulpit);
+        searchComponentContainer.addComponents(searchByInitials, searchBySpeciality, searchByPulpit, countEnded);
         searchComponentContainer.setSizeFull();
         mainLayout.addComponents(searchComponentContainer, chooseComponentContainer);
         super.buildScreen();
@@ -62,9 +70,13 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
         searchBySpeciality.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().findBySpeciality(searchBySpeciality.getSearchText())));
 
-        chooseEnterEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseBySpecialityAndStudyState(chooseEnterEnrollee.getSearchText(), StudyInfo.StudyState.ENTER)));
+        chooseEnterEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseBySpecialityAndStudyState(chooseEnterEnrollee.getSearchText(), StudyInfo.Status.ENTER)));
 
-        chooseEndedEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseByUniversityAndStudyState(chooseEndedEnrollee.getSearchText(), StudyInfo.StudyState.ENDED)));
+        chooseEndedEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseByUniversityAndStudyState(chooseEndedEnrollee.getSearchText(), StudyInfo.Status.ENDED)));
+
+        countEnded.setSearchButtonClickListener(() -> GuiUtils.showNotification("Количество абитуриентов", ServiceProvider.instance().getStudyInfoService().enrollCountOfEndedUniversity(countEnded.getSearchText())));
+
+        averageAgeSpeciality.setSearchButtonClickListener(() -> GuiUtils.showNotification("Средий возраст", ServiceProvider.instance().getStudyInfoService().averageAgeOfSpeciality(averageAgeSpeciality.getSearchText())));
 
         grid.addItemClickListener(itemClick -> {
             getPresenter().showEnrollee(itemClick.getItem().getEnrollee());
@@ -85,6 +97,14 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
         grid.addColumn(studyInfo -> studyInfo.getInstitution().getName()).setCaption("Учебное заведение");
         grid.addColumn(studyInfo -> studyInfo.getPulpit().getName()).setCaption("Кафедра");
         grid.addColumn(studyInfo -> studyInfo.getSpeciality().getName()).setCaption("Специальность");
-        grid.addColumn(studyInfo -> studyInfo.getStudyState().getName()).setCaption("Положение в университете");
+        grid.addColumn(studyInfo -> studyInfo.getStudyState().getName()).setCaption("Статус");
+        grid.addColumn(studyInfo -> "Удалить", new ButtonRenderer<>(rendererClickEvent -> {
+            delete(rendererClickEvent.getItem());
+        }));
+    }
+
+    private void delete(StudyInfo studyInfo){
+        ServiceProvider.instance().getStudyInfoService().delete(studyInfo);
+        grid.setItems(getContent());
     }
 }

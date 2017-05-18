@@ -212,7 +212,9 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     @Override
     public void studyInfoBuild(StudyInfo studyInfo) {
-        studyInfoList.add(studyInfo);
-        studyInfoListGrid.setItems(studyInfoList);
+        if (!studyInfoList.contains(studyInfo)){
+            studyInfoList.add(studyInfo);
+            studyInfoListGrid.setItems(studyInfoList);
+        }
     }
 }

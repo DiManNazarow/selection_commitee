@@ -1,5 +1,6 @@
 package ru.dmitriy.selectioncommittee.ui.screens.pulpits;
 
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -34,7 +35,6 @@ public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, PulpitSc
         addButton.addClickListener(clickEvent -> {
             getPresenter().addSpeciality(selectedPulpits);
             ScreenManager.getInstance().navigateBack();
-//            ScreenManager.getInstance().navigateTo(AddNewPulpitScreen.ADD_NEW_PULPIT_SCREEN);
         });
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addSelectionListener(selectionEvent -> {
@@ -57,4 +57,8 @@ public class AddSpecialityToPulpitScreen extends ListScreen<Speciality, PulpitSc
         grid.addColumn(Speciality::getName).setCaption("Специальность");
     }
 
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        super.enter(viewChangeEvent);
+    }
 }

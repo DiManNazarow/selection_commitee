@@ -4,9 +4,7 @@ package ru.dmitriy.selectioncommittee.models;
  * Created by Dmitriy Nazarow on 12.02.17.
  */
 
-import com.google.gson.JsonObject;
 import org.hibernate.annotations.GenericGenerator;
-import ru.dmitriy.selectioncommittee.utils.JsonUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,6 +32,9 @@ public class Enrollee {
     @Column(name = "patronymic")
     private String patronymic;
 
+    @Column(name = "age")
+    private Long age;
+
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 
@@ -55,7 +56,7 @@ public class Enrollee {
     @Column(name = "school_doc_number", unique = true, nullable = false)
     private String schoolDocNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<StudyInfo> studyInfo;
 
     public Long getId() {
@@ -88,6 +89,14 @@ public class Enrollee {
 
     public void setPatronymic(String patronymic) {
         this.patronymic = patronymic;
+    }
+
+    public Long getAge() {
+        return age;
+    }
+
+    public void setAge(Long age) {
+        this.age = age;
     }
 
     public String getPhone() {

@@ -2,7 +2,6 @@ package ru.dmitriy.selectioncommittee.ui.screens.enrollee;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.ListSelect;
@@ -13,7 +12,7 @@ import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +43,7 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     protected Speciality speciality;
 
-    protected StudyInfo.StudyState studyState;
+    protected StudyInfo.Status studyState;
 
     public BindUniversityScreen() {
         super(new VerticalLayout());
@@ -78,8 +77,8 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         specialityList.addColumn(Speciality::getName).setCaption("Специальность");
 
         studyStateList = new ListSelect<>("Состояние обучающегося*");
-        studyStateList.setItems(StudyInfo.StudyState.getStudyStateNames());
-        studyStateList.setHeight(StudyInfo.StudyState.getSize() + 2, Unit.EM);
+        studyStateList.setItems(StudyInfo.Status.getStudyStateNames());
+        studyStateList.setHeight(StudyInfo.Status.getSize() + 2, Unit.EM);
 
         institutionList.addItemClickListener(itemClick -> {
             institution = itemClick.getItem();
@@ -96,7 +95,7 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         studyStateList.addValueChangeListener(new HasValue.ValueChangeListener<Set<String>>() {
             @Override
             public void valueChange(HasValue.ValueChangeEvent<Set<String>> valueChangeEvent) {
-                studyState = StudyInfo.StudyState.getByName(valueChangeEvent.getValue().stream().findFirst().get());
+                studyState = StudyInfo.Status.getByName(valueChangeEvent.getValue().stream().findFirst().get());
             }
         });
 
@@ -106,14 +105,15 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
+        institutionList.setItems(ServiceProvider.instance().getInstituteService().getAllInstitute());
+        pulpitList.setItems(Collections.emptyList());
+        specialityList.setItems(Collections.emptyList());
     }
 
     @Override
     public void addEnrollee(Enrollee enrollee) {
         this.enrollee = enrollee;
         studyInfo = new StudyInfo();
-        institutionList.setItems(ServiceProvider.instance().getInstituteService().getAllInstitute());
     }
 
     private void showPulpit(List<Pulpit> pulpits){

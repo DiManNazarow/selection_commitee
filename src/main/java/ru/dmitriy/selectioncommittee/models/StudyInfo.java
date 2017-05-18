@@ -1,13 +1,9 @@
 package ru.dmitriy.selectioncommittee.models;
 
-import com.google.gson.JsonObject;
 import org.hibernate.annotations.GenericGenerator;
-import ru.dmitriy.selectioncommittee.utils.JsonUtils;
 
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,10 +20,10 @@ public class StudyInfo {
     @GeneratedValue(generator = "studyInfo")
     private Long id;
 
-    @Column(name = "study_state", nullable = false)
-    private int studyState;
+    @Column(name = "status", nullable = false)
+    private int status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Enrollee enrollee;
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -79,15 +75,15 @@ public class StudyInfo {
         this.speciality = speciality;
     }
 
-    public StudyState getStudyState() {
-        return StudyState.getByState(studyState);
+    public Status getStudyState() {
+        return Status.getByState(status);
     }
 
-    public void setStudyState(StudyState studyState) {
-        this.studyState = studyState.getState();
+    public void setStudyState(Status status) {
+        this.status = status.getState();
     }
 
-    public enum StudyState{
+    public enum Status {
         ENTER(0, "Поступает"),
         STUDY(1, "Обучается"),
         ENDED(2, "Закочил");
@@ -96,7 +92,7 @@ public class StudyInfo {
 
         private String name;
 
-        StudyState(int state, String name){
+        Status(int state, String name){
             this.state = state;
             this.name = name;
         }
@@ -109,8 +105,8 @@ public class StudyInfo {
             return name;
         }
 
-        public static StudyState getByName(String name){
-            StudyState studyState = null;
+        public static Status getByName(String name){
+            Status studyState = null;
             switch (name){
                 case "Поступает": studyState = ENTER; break;
                 case "Обучается": studyState = STUDY; break;
@@ -119,8 +115,8 @@ public class StudyInfo {
             return studyState;
         }
 
-        public static StudyState getByState(int state){
-            StudyState studyState = null;
+        public static Status getByState(int state){
+            Status studyState = null;
             switch (state){
                 case 0: studyState = ENTER; break;
                 case 1: studyState = STUDY; break;
@@ -130,7 +126,7 @@ public class StudyInfo {
         }
 
         public static int getSize(){
-            return StudyState.values().length;
+            return Status.values().length;
         }
 
         public static List<String> getStudyStateNames(){

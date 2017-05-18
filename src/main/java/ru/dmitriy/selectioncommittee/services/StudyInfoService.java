@@ -26,7 +26,15 @@ public interface StudyInfoService {
 
     List<StudyInfo> searchByInitials(String initials);
 
-    List<StudyInfo> chooseByUniversityAndStudyState(String university, StudyInfo.StudyState studyState);
+    List<StudyInfo> chooseByUniversityAndStudyState(String university, StudyInfo.Status studyState);
 
-    List<StudyInfo> chooseBySpecialityAndStudyState(String speciality, StudyInfo.StudyState studyState);
+    List<StudyInfo> chooseBySpecialityAndStudyState(String speciality, StudyInfo.Status studyState);
+
+    void delete(StudyInfo studyInfo);
+
+    int enrollCountOfEndedUniversity(String universityName);
+
+    long averageAgeOfSpeciality(int specialityCode);
+
+    long averageAgeOfSpeciality(String specialityName);
 }
