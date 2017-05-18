@@ -51,11 +51,21 @@ public class StudyInfoServiceImpl implements StudyInfoService {
     }
 
     @Override
-    public List<StudyInfo> findBySpeciality(String speciality) {
+    public List<StudyInfo> findBySpecialityName(String speciality) {
         return studyInfoRepository.findBySpecialityNameContaining(speciality);
+    }
+
+    @Override
+    public List<StudyInfo> findBySpecialityNumber(String number) {
+        return studyInfoRepository.findBySpecialitySpecialNumberContaining(number);
+    }
+
+    //@Override
+    //public List<StudyInfo> findBySpeciality(String speciality) {
+        //return studyInfoRepository.findBySpecialityNameContaining(speciality);
         //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
         //return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase()) || s.getSpeciality().getSpecialNumber().toLowerCase().contains(speciality.toLowerCase())).collect(Collectors.toList());
-    }
+    //}
 
     @Override
     public List<StudyInfo> searchByPulpit(String pulpit) {
@@ -113,14 +123,22 @@ public class StudyInfoServiceImpl implements StudyInfoService {
 
     @Override
     public int enrollCountOfEndedUniversity(String universityName) {
-        List<StudyInfo> infoList = (ArrayList<StudyInfo>)studyInfoRepository.findAll();
-        return (int)infoList.stream().filter(i -> i.getInstitution().getName().toLowerCase().contains(universityName.toLowerCase()) && i.getStudyState().equals(StudyInfo.Status.ENDED)).count();
+        return studyInfoRepository.findByInstitutionNameContainingAndStatus(universityName, StudyInfo.Status.ENDED.getState()).size();
     }
 
     @Override
     public long averageAgeOfSpeciality(int specialityCode) {
-        List<StudyInfo> infoList = (ArrayList<StudyInfo>)studyInfoRepository.findAll();
-        infoList = infoList.stream().filter(i -> i.getSpeciality().getSpecialNumber().toLowerCase().contains(String.valueOf(specialityCode)) && i.getStudyState().equals(StudyInfo.Status.ENDED)).collect(Collectors.toList());
+        List<StudyInfo> infoList = studyInfoRepository.findBySpecialitySpecialNumberContaining(String.valueOf(specialityCode));
+        List<Long> ages = new ArrayList<>();
+        for (StudyInfo studyInfo : infoList){
+            ages.add(studyInfo.getEnrollee().getAge());
+        }
+        return calculateAverage(ages);
+    }
+
+    @Override
+    public long averageAgeOfSpeciality(String speciality) {
+        List<StudyInfo> infoList = studyInfoRepository.findBySpecialitySpecialNumberContaining(speciality);
         List<Long> ages = new ArrayList<>();
         for (StudyInfo studyInfo : infoList){
             ages.add(studyInfo.getEnrollee().getAge());
@@ -134,16 +152,5 @@ public class StudyInfoServiceImpl implements StudyInfoService {
             sum +=value;
         }
         return sum/ages.size();
-    }
-
-    @Override
-    public long averageAgeOfSpeciality(String specialityName) {
-        List<StudyInfo> infoList = (ArrayList<StudyInfo>)studyInfoRepository.findAll();
-        infoList = infoList.stream().filter(i -> i.getSpeciality().getName().toLowerCase().contains(specialityName.toLowerCase()) && i.getStudyState().equals(StudyInfo.Status.ENDED)).collect(Collectors.toList());
-        List<Long> ages = new ArrayList<>();
-        for (StudyInfo studyInfo : infoList){
-            ages.add(studyInfo.getEnrollee().getAge());
-        }
-        return calculateAverage(ages);
     }
 }

@@ -28,6 +28,13 @@ public interface StudyInfoRepository extends CrudRepository<StudyInfo, Long> {
     List<StudyInfo> findBySpecialityNameContaining(String speciality);
 
     /**
+     * Сведения об абитуриенте по коду специальности
+     * @param number
+     * @return
+     */
+    List<StudyInfo> findBySpecialitySpecialNumberContaining(String number);
+
+    /**
      * Сведения об абитуриенте по учебному заведению
      * @param institution
      * @return

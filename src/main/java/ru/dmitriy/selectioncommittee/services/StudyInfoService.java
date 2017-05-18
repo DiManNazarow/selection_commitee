@@ -20,7 +20,9 @@ public interface StudyInfoService {
 
     List<StudyInfo> findByUniversity(String university);
 
-    List<StudyInfo> findBySpeciality(String speciality);
+    List<StudyInfo> findBySpecialityName(String speciality);
+
+    List<StudyInfo> findBySpecialityNumber(String number);
 
     List<StudyInfo> searchByPulpit(String pulpit);
 
