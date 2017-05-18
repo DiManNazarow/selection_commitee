@@ -28,7 +28,9 @@ public interface StudyInfoService {
 
     List<StudyInfo> chooseByUniversityAndStudyState(String university, StudyInfo.Status studyState);
 
-    List<StudyInfo> chooseBySpecialityAndStudyState(String speciality, StudyInfo.Status studyState);
+    List<StudyInfo> chooseBySpecialityNameAndStudyState(String speciality, StudyInfo.Status studyState);
+
+    List<StudyInfo> chooseBySpecialityNumberAndStudyState(String speciality, StudyInfo.Status studyState);
 
     void delete(StudyInfo studyInfo);
 

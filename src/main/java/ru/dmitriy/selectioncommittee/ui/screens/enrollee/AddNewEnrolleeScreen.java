@@ -14,10 +14,7 @@ import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by Dmitriy Nazarow on 24.03.17.
@@ -108,9 +105,6 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
     }
 
     private void save(){
-        if (enrollee.getId() != null){
-            enrollee = new Enrollee();
-        }
         enrollee.setName(name.getText());
         enrollee.setSurname(surname.getText());
         enrollee.setPatronymic(patronymic.getText());
@@ -128,7 +122,7 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
         String id = ServiceProvider.instance().getEnrolleeService().saveEnrollee(enrollee);
         if (!TextUtils.isEmpty(id)){
-            enrollee.setId(Long.parseLong(id));
+            //enrollee.setId(Long.parseLong(id));
 
             ServiceProvider.instance().getStudyInfoService().save(studyInfoList);
 
@@ -136,10 +130,28 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
             ServiceProvider.instance().getEnrolleeService().saveEnrollee(enrollee);
 
+            clear();
+            ScreenManager.getInstance().navigateBack();
             Notification.show("Сохранено");
         } else {
             Notification.show("Ошибка");
         }
+    }
+
+    private void clear(){
+        name.clear();
+        surname.clear();
+        patronymic.clear();
+        phone.clear();
+        city.clear();
+        street.clear();
+        address.clear();
+        personalDocNumber.clear();
+        school.clear();
+        schoolDocNumber.clear();
+        studyInfoListGrid.setItems(Collections.emptyList());
+        studyInfoList.clear();
+        enrollee = null;
     }
 
     private boolean checkField(){
@@ -207,7 +219,9 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
+        if (enrollee == null){
+            enrollee = new Enrollee();
+        }
     }
 
     @Override

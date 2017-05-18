@@ -88,6 +88,12 @@ public class InputTextLayout extends VerticalLayout implements View {
         errorTextLabel.setValue(errorText);
     }
 
+    public void clear(){
+        textField.clear();
+        errorTextLabel.setValue("");
+        text = null;
+    }
+
     public boolean isTextEmpty(){
         return TextUtils.isEmpty(text);
     }

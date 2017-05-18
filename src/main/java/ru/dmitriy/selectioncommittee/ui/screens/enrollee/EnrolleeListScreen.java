@@ -70,7 +70,7 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
         searchBySpeciality.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().findBySpeciality(searchBySpeciality.getSearchText())));
 
-        chooseEnterEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseBySpecialityAndStudyState(chooseEnterEnrollee.getSearchText(), StudyInfo.Status.ENTER)));
+        chooseEnterEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseBySpecialityNameAndStudyState(chooseEnterEnrollee.getSearchText(), StudyInfo.Status.ENTER)));
 
         chooseEndedEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseByUniversityAndStudyState(chooseEndedEnrollee.getSearchText(), StudyInfo.Status.ENDED)));
 

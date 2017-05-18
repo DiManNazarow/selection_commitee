@@ -45,43 +45,52 @@ public class StudyInfoServiceImpl implements StudyInfoService {
 
     @Override
     public List<StudyInfo> findByUniversity(String university) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(s -> s.getInstitution().getName().toLowerCase().contains(university.toLowerCase())).collect(Collectors.toList());
+        return studyInfoRepository.findByInstitutionNameContaining(university);
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getInstitution().getName().toLowerCase().contains(university.toLowerCase())).collect(Collectors.toList());
     }
 
     @Override
     public List<StudyInfo> findBySpeciality(String speciality) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase()) || s.getSpeciality().getSpecialNumber().toLowerCase().contains(speciality.toLowerCase())).collect(Collectors.toList());
+        return studyInfoRepository.findBySpecialityNameContaining(speciality);
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase()) || s.getSpeciality().getSpecialNumber().toLowerCase().contains(speciality.toLowerCase())).collect(Collectors.toList());
     }
 
     @Override
     public List<StudyInfo> searchByPulpit(String pulpit) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(s -> s.getPulpit().getName().toLowerCase().contains(pulpit.toLowerCase())).collect(Collectors.toList());
+        return studyInfoRepository.findByPulpitNameContaining(pulpit);
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getPulpit().getName().toLowerCase().contains(pulpit.toLowerCase())).collect(Collectors.toList());
     }
 
     @Override
     public List<StudyInfo> searchByInitials(String initials) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(
-                e -> e.getEnrollee().getName().toLowerCase().contains(initials.toLowerCase()) ||
-                        e.getEnrollee().getSurname().toLowerCase().contains(initials.toLowerCase()) ||
-                        e.getEnrollee().getPatronymic().toLowerCase().contains(initials.toLowerCase())).collect(Collectors.toList());
+        return studyInfoRepository.findByEnrolleeNameOrEnrolleeSurnameOrEnrolleePatronymicContaining(initials, initials, initials);
     }
 
     @Override
     public List<StudyInfo> chooseByUniversityAndStudyState(String university, StudyInfo.Status studyState) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(s -> s.getInstitution().getName().toLowerCase().contains(university.toLowerCase())
-            && s.getStudyState().equals(studyState)).collect(Collectors.toList());
+        return studyInfoRepository.findByInstitutionNameContainingAndStatus(university, studyState.getState());
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getInstitution().getName().toLowerCase().contains(university.toLowerCase())
+        //    && s.getStudyState().equals(studyState)).collect(Collectors.toList());
     }
 
     @Override
-    public List<StudyInfo> chooseBySpecialityAndStudyState(String speciality, StudyInfo.Status studyState) {
-        ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
-        return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase())
-            && s.getStudyState().equals(studyState)).collect(Collectors.toList());
+    public List<StudyInfo> chooseBySpecialityNameAndStudyState(String speciality, StudyInfo.Status studyState) {
+        return studyInfoRepository.findBySpecialityNameContainingAndStatus(speciality, studyState.getState());
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase())
+        //    && s.getStudyState().equals(studyState)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudyInfo> chooseBySpecialityNumberAndStudyState(String speciality, StudyInfo.Status studyState) {
+        return studyInfoRepository.findBySpecialitySpecialNumberContainingAndStatus(speciality, studyState.getState());
+        //ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>) studyInfoRepository.findAll();
+        //return studyInfos.stream().filter(s -> s.getSpeciality().getName().toLowerCase().contains(speciality.toLowerCase())
+        //    && s.getStudyState().equals(studyState)).collect(Collectors.toList());
     }
 
     @Override

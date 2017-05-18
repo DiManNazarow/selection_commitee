@@ -63,6 +63,7 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
         save = new Button("Сохранить");
         save.addClickListener(clickEvent -> {
             buildStudyInfo();
+            clear();
             ScreenManager.getInstance().navigateBack();
         });
 
@@ -114,6 +115,15 @@ public class BindUniversityScreen extends Screen<VerticalLayout, EnrolleeScreens
     public void addEnrollee(Enrollee enrollee) {
         this.enrollee = enrollee;
         studyInfo = new StudyInfo();
+    }
+
+    private void clear(){
+        enrollee = null;
+        institution = null;
+        pulpit = null;
+        speciality = null;
+        studyState = null;
+        studyInfo = null;
     }
 
     private void showPulpit(List<Pulpit> pulpits){
