@@ -15,20 +15,20 @@ public class GuiUtils {
     }
 
     public static void showNotification(String title, String value){
-        Notification notification = new Notification(title, value, Notification.Type.ASSISTIVE_NOTIFICATION);
-        notification.setDelayMsec(1000);
+        Notification notification = new Notification(title, value, Notification.Type.HUMANIZED_MESSAGE);
+        notification.setDelayMsec(3000);
         notification.show(Page.getCurrent());
     }
 
     public static void showNotification(String title, int value){
-        Notification notification = new Notification(title, String.valueOf(value), Notification.Type.ASSISTIVE_NOTIFICATION);
-        notification.setDelayMsec(1000);
+        Notification notification = new Notification(title, String.valueOf(value), Notification.Type.HUMANIZED_MESSAGE);
+        notification.setDelayMsec(3000);
         notification.show(Page.getCurrent());
     }
 
     public static void showNotification(String title, long value){
-        Notification notification = new Notification(title, String.valueOf(value), Notification.Type.ASSISTIVE_NOTIFICATION);
-        notification.setDelayMsec(1000);
+        Notification notification = new Notification(title, String.valueOf(value), Notification.Type.HUMANIZED_MESSAGE);
+        notification.setDelayMsec(3000);
         notification.show(Page.getCurrent());
     }
 

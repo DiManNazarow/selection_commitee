@@ -9,6 +9,7 @@ import ru.dmitriy.selectioncommittee.ui.manager.ScreenManager;
 import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.views.SearchView;
+import ru.dmitriy.selectioncommittee.utils.DateFormatUtils;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
         searchByPulpit.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().searchByPulpit(searchByPulpit.getSearchText())));
 
-        searchBySpeciality.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().findBySpeciality(searchBySpeciality.getSearchText())));
+        searchBySpeciality.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().findBySpecialityName(searchBySpeciality.getSearchText())));
 
         chooseEnterEnrollee.setSearchButtonClickListener(() -> grid.setItems(ServiceProvider.instance().getStudyInfoService().chooseBySpecialityNameAndStudyState(chooseEnterEnrollee.getSearchText(), StudyInfo.Status.ENTER)));
 
@@ -76,7 +77,7 @@ public class EnrolleeListScreen extends ListScreen<StudyInfo, EnrolleeScreensPre
 
         countEnded.setSearchButtonClickListener(() -> GuiUtils.showNotification("Количество абитуриентов", ServiceProvider.instance().getStudyInfoService().enrollCountOfEndedUniversity(countEnded.getSearchText())));
 
-        averageAgeSpeciality.setSearchButtonClickListener(() -> GuiUtils.showNotification("Средий возраст", ServiceProvider.instance().getStudyInfoService().averageAgeOfSpeciality(averageAgeSpeciality.getSearchText())));
+        averageAgeSpeciality.setSearchButtonClickListener(() -> GuiUtils.showNotification("Средий возраст", DateFormatUtils.getYear(ServiceProvider.instance().getStudyInfoService().averageAgeOfSpeciality(averageAgeSpeciality.getSearchText()))));
 
         grid.addItemClickListener(itemClick -> {
             getPresenter().showEnrollee(itemClick.getItem().getEnrollee());

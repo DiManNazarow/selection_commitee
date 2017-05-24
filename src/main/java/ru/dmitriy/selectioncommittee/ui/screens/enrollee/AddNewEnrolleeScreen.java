@@ -11,9 +11,11 @@ import ru.dmitriy.selectioncommittee.ui.manager.ServiceProvider;
 import ru.dmitriy.selectioncommittee.ui.presenter.EnrolleeScreensPresenter;
 import ru.dmitriy.selectioncommittee.ui.screens.university.UniversityInfoScreen;
 import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
+import ru.dmitriy.selectioncommittee.utils.DateFormatUtils;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -28,6 +30,8 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
     private InputTextLayout surname;
 
     private InputTextLayout patronymic;
+
+    private DateField date;
 
     private InputTextLayout phone;
 
@@ -70,6 +74,10 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
         name = new InputTextLayout("Имя*");
         surname = new InputTextLayout("Фамилия*");
         patronymic = new InputTextLayout("Отчество");
+        date = new DateField("Год рожденияч");
+        date.setValue(LocalDate.now());
+        date.setDateFormat(DateFormatUtils.DATE_FORMAT);
+        date.setPlaceholder(DateFormatUtils.DATE_FORMAT);
         phone = new InputTextLayout("Телефон*");
         city = new InputTextLayout("Город*");
         street = new InputTextLayout("Улица*");
@@ -100,7 +108,7 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
             save();
         });
 
-        mainLayout.addComponents(name, surname, patronymic, phone, city, street, address, personalDocNumber, school, schoolDocNumber, addUniversity, studyInfoListGrid, saveButton);
+        mainLayout.addComponents(name, surname, patronymic, date, phone, city, street, address, personalDocNumber, school, schoolDocNumber, addUniversity, studyInfoListGrid, saveButton);
         addComponent(mainLayout);
     }
 
@@ -108,6 +116,7 @@ public class AddNewEnrolleeScreen extends Screen<VerticalLayout, EnrolleeScreens
         enrollee.setName(name.getText());
         enrollee.setSurname(surname.getText());
         enrollee.setPatronymic(patronymic.getText());
+        enrollee.setAge(DateFormatUtils.parse(date.getValue().toString()));
         enrollee.setPhone(phone.getText());
         enrollee.setCity(city.getText());
         enrollee.setStreet(street.getText());

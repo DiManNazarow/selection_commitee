@@ -107,7 +107,13 @@ public class StudyInfoServiceImpl implements StudyInfoService {
     public void delete(StudyInfo studyInfo) {
 
         Enrollee enrollee = studyInfo.getEnrollee();
-        enrollee.getStudyInfo().remove(studyInfo);
+        for (int i = 0; i < enrollee.getStudyInfo().size(); i++){
+            if (enrollee.getStudyInfo().get(i).getId().equals(studyInfo.getId())){
+                enrollee.getStudyInfo().remove(i);
+                i--;
+            }
+        }
+        //enrollee.getStudyInfo().remove(studyInfo);
 
         enrollee = enrolleRepository.save(enrollee);
 
@@ -138,7 +144,7 @@ public class StudyInfoServiceImpl implements StudyInfoService {
 
     @Override
     public long averageAgeOfSpeciality(String speciality) {
-        List<StudyInfo> infoList = studyInfoRepository.findBySpecialitySpecialNumberContaining(speciality);
+        List<StudyInfo> infoList = studyInfoRepository.findBySpecialityNameContaining(speciality);
         List<Long> ages = new ArrayList<>();
         for (StudyInfo studyInfo : infoList){
             ages.add(studyInfo.getEnrollee().getAge());
