@@ -12,6 +12,7 @@ import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -88,9 +89,20 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
             institution.setId(Long.parseLong(id));
             updatePulpits(institution.getPulpits());
             Notification.show("Сохранено");
+            ScreenManager.getInstance().navigateBack();
+            clear();
         } else {
             Notification.show("Ошибка");
         }
+    }
+
+    private void clear(){
+        institutionName.clear();
+        institutionCity.clear();
+        institutionAddress.clear();
+        institutionStreet.clear();
+        universityPulpitList.setItems(Collections.emptyList());
+        institution = null;
     }
 
     private boolean checkField(){
@@ -143,6 +155,9 @@ public class AddNewUniversityScreen extends Screen<VerticalLayout, UniversityScr
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (institution == null){
+            institution = new Institution();
+        }
         if (institution.getPulpits() != null) {
             universityPulpitList.setItems(institution.getPulpits());
         }

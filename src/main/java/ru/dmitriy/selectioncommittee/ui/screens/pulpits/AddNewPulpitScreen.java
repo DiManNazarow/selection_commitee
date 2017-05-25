@@ -12,6 +12,7 @@ import ru.dmitriy.selectioncommittee.ui.views.InputTextLayout;
 import ru.dmitriy.selectioncommittee.utils.GuiUtils;
 import ru.dmitriy.selectioncommittee.utils.TextUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -67,9 +68,6 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
     }
 
     public void save(){
-        if (pulpit.getId() != null){
-            pulpit = new Pulpit();
-        }
         pulpit.setName(pulpitName.getText());
 
         if (!checkField()){
@@ -81,9 +79,17 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
             pulpit.setId(Long.parseLong(id));
             updateSpecialities(pulpit.getSpecialities());
             Notification.show("Сохранено");
+            ScreenManager.getInstance().navigateBack();
+            clear();
         } else {
             Notification.show("Ошибка");
         }
+    }
+
+    private void clear(){
+        pulpitName.clear();
+        specialityList.setItems(Collections.emptyList());
+        pulpit = null;
     }
 
     private boolean checkField(){
@@ -110,6 +116,9 @@ public class AddNewPulpitScreen extends Screen<VerticalLayout, PulpitScreensPres
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (pulpit == null){
+            pulpit = new Pulpit();
+        }
         if (pulpit.getSpecialities() != null) {
             specialityList.setItems(pulpit.getSpecialities());
         }
